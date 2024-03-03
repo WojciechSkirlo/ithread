@@ -1,0 +1,6 @@
+*.log*
+.env
+dist
+.expo/
+dist/
+web-build/
