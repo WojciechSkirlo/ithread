@@ -4,3 +4,4 @@ dist
 .expo/
 dist/
 web-build/
+node_modules/
