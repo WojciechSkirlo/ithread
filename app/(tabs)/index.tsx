@@ -12,7 +12,8 @@ export default function Home() {
 const styles = StyleSheet.create({
   testone: {
     color: 'red',
-    fontFamily: 'Poppins-Regular'
+    fontFamily: 'Poppins-Semibold',
+    fontSize: 24
   },
   testtwo: {
     color: 'blue'

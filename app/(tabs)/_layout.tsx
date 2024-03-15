@@ -25,6 +25,9 @@ export default function TabsLayout() {
           // shadowRadius: 0,
           // elevation: 20,
         },
+        headerTitleStyle: {
+          fontFamily: 'Poppins-Medium'
+        },
         headerTitleAlign: 'center'
       }}
     >
