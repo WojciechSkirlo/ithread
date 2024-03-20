@@ -7,24 +7,25 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors.primary,
+        tabBarActiveTintColor: Colors.GrayDark,
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 70,
           paddingHorizontal: 40,
-          shadowColor: Colors.black,
+          shadowColor: Colors.Black,
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.08,
           shadowRadius: 0,
           elevation: 20
         },
         headerStyle: {
-          backgroundColor: Colors.white
+          backgroundColor: Colors.White
         },
         headerTitleStyle: {
           fontFamily: 'Poppins-Medium'
         },
-        headerTitleAlign: 'center'
+        headerTitleAlign: 'center',
+        headerTintColor: Colors.GrayDark
       }}
     >
       <Tabs.Screen
@@ -46,9 +47,9 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="account"
         options={{
-          title: 'Profile',
+          title: 'Account',
           tabBarIcon: ({ color, focused }) => (
             <User color={color} variant={`${focused ? 'Bold' : 'Linear'}`} size={24} />
           )

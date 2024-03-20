@@ -21,18 +21,18 @@ export default function Card({ title, description }: CardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.GrayLightest,
     borderRadius: 10,
     paddingLeft: 12,
     paddingRight: 12,
     paddingBottom: 16,
-    paddingTop: 20,
-    flex: 2
+    paddingTop: 16,
+    flex: 1
   },
   iconContainer: {
     backgroundColor: 'rgba(102, 178, 233, 0.15)',
     padding: 10,
-    borderRadius: 99999,
+    borderRadius: 9999,
     alignSelf: 'flex-start',
     marginBottom: 12
   },
@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     fontSize: 14,
     marginBottom: 6,
-    color: Colors.primary
+    color: Colors.GrayDark
   },
   description: {
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
-    color: Colors.tertiary
+    color: Colors.Gray
   }
 });

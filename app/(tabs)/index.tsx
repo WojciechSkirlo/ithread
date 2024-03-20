@@ -1,45 +1,84 @@
-import { View, FlatList } from 'react-native';
+import { StyleSheet, View, Pressable, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
-import Card from '@components/Card';
+import { Colors } from '@helpers/colors';
+import Label from '@components/UI/Label';
+import User from '@components/User';
 
 const DATA = [
   {
     id: '1',
-    title: 'Write an Article',
-    description: 'Generate well-written articles on any topic you want.'
+    fullName: 'Shawn Samson',
+    message: 'Hi! Can you show your homework? asda sdoj asdij aosi djojasdij asiod',
+    avatar: require('@assets/img/avatar.png')
   },
   {
     id: '2',
-    title: 'Academic Writer',
-    description: 'Generate educational writing such as eassys, reports, etc.'
+    fullName: 'Amanda',
+    message: 'Hello there',
+    avatar: require('@assets/img/avatar.png')
   },
   {
     id: '3',
-    title: 'Songs/Lyrics',
-    description: 'Generate well-written articles on any topic you want.'
+    fullName: 'John Doe',
+    message: 'Hello! how may I help you today?',
+    avatar: require('@assets/img/avatar.png')
   },
   {
     id: '4',
-    title: 'Story Teller',
-    description: 'Generate educationalwriting such as eassys, reports, etc.'
+    fullName: 'Tina',
+    message: 'What is the meaning of “Serendipity”?',
+    avatar: require('@assets/img/avatar.png')
+  },
+  {
+    id: '5',
+    fullName: 'Shawn Samson',
+    message: 'Hi! Can you show your homework? asda sdoj asdij aosi djojasdij asiod',
+    avatar: require('@assets/img/avatar.png')
+  },
+  {
+    id: '6',
+    fullName: 'Amanda',
+    message: 'Hello there',
+    avatar: require('@assets/img/avatar.png')
+  },
+  {
+    id: '7',
+    fullName: 'John Doe',
+    message: 'Hello! how may I help you today?',
+    avatar: require('@assets/img/avatar.png')
+  },
+  {
+    id: '8',
+    fullName: 'Tina',
+    message: 'What is the meaning of “Serendipity”?',
+    avatar: require('@assets/img/avatar.png')
   }
 ];
 
 export default function Home() {
   return (
-    <View style={{ padding: 16, paddingTop: 4, backgroundColor: '#fff', flex: 1 }}>
-      <Link href="/conversation">
-        <Card title="asdasd" description="asd" />
-      </Link>
-
-      <FlatList
-        columnWrapperStyle={{ gap: 12 }}
-        contentContainerStyle={{ gap: 12 }}
-        data={DATA}
-        numColumns={2}
-        renderItem={({ item }) => <Card title={item.title} description={item.description} />}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Label>Friends</Label>
+        <View style={{ gap: 8 }}>
+          {DATA.map((item) => (
+            <Link href="/chat" key={item.id} asChild>
+              <Pressable>
+                <User name={item.fullName} message={item.message} />
+              </Pressable>
+            </Link>
+          ))}
+        </View>
+      </View>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    paddingTop: 4,
+    backgroundColor: Colors.White,
+    flex: 1
+  }
+});
