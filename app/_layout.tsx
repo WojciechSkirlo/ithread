@@ -1,16 +1,12 @@
-import { View } from 'react-native';
 import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
-// import { Text } from 'react-native';
-// import { Slot } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-// import { AuthProvider } from '@context/auth';
-
+import { Text } from 'react-native';
 import { usePathname, useGlobalSearchParams, Slot } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+export default function HomeLayout() {
   const [isFontLoaded, fontError] = useFonts({
     'Poppins-Light': require('@assets/fonts/Poppins-Light.ttf'),
     'Poppins-Regular': require('@assets/fonts/Poppins-Regular.ttf'),
@@ -32,20 +28,14 @@ export default function RootLayout() {
     onLayoutRootView();
   }, [isFontLoaded, fontError]);
 
-  // For tracking
+  //  For tracking
   useEffect(() => {
     console.log('pathname', pathname, 'params', params);
   }, [pathname, params]);
 
   if (!isFontLoaded && !fontError) {
-    return null;
+    return <Text>Loading...</Text>;
   }
 
-  return (
-    // <AuthProvider>
-    // </AuthProvider>
-    <View style={{ backgroundColor: 'red', flex: 1 }}>
-      <Slot />
-    </View>
-  );
+  return <Slot />;
 }

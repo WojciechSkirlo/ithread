@@ -1,9 +1,11 @@
 import { Text, View } from 'react-native';
+import { Link } from 'expo-router';
 
-export default function Index() {
-  <View
-    style={{ flex: 1, justifyContent: 'center', height: 200, width: 200, alignItems: 'center', backgroundColor: 'red' }}
-  >
-    <Text>Sign In</Text>
-  </View>;
+export default function SignIn() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'blue' }}>
+      <Text>Sign In</Text>
+      <Link href="/_sitemap">sdfsdfsdf</Link>
+    </View>
+  );
 }

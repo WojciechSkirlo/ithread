@@ -1,18 +1,15 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import { Pressable } from 'react-native';
-// import { Redirect, Stack, Link } from 'expo-router';
-import { Stack, Link } from 'expo-router';
+import { Redirect, Stack, Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { ArrowLeft } from 'iconsax-react-native';
 
 export default function AppLayout() {
-  // const [isAuthenticated] = useState(false);
+  const [isAuthenticated] = useState(false);
 
-  // if (!isAuthenticated) {
-  //   return <Redirect href="/sign-in" />;
-  // }
-
-  return <Stack />;
+  if (!isAuthenticated) {
+    return <Redirect href="/sign-in" />;
+  }
 
   return (
     <Stack>
@@ -29,7 +26,7 @@ export default function AppLayout() {
           },
           headerLeft: ({ canGoBack }) =>
             canGoBack && (
-              <Link href="/(app)/(tabs)" asChild>
+              <Link href="/" asChild>
                 <Pressable>
                   <ArrowLeft color={Colors.GrayDark} variant="Linear" size={24} />
                 </Pressable>
