@@ -62,7 +62,7 @@ export default function Home() {
         <Label>Friends</Label>
         <View style={{ gap: 8 }}>
           {DATA.map((item) => (
-            <Link href="/chat" key={item.id} asChild>
+            <Link href="/(app)/chat" key={item.id} asChild>
               <Pressable>
                 <User name={item.fullName} message={item.message} />
               </Pressable>
