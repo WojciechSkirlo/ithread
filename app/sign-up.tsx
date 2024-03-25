@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   inputsButtonContainer: {
     gap: 12,
     flex: 1,
-    justifyContent: 'space-between',
     width: '100%'
   },
   inputsContainer: {
