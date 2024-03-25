@@ -1,9 +1,11 @@
 import { useRef, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Message as IMessage } from '@ts/index';
+import { Send2 } from 'iconsax-react-native';
 import { Colors } from '@helpers/colors';
 import Message from '@components/Message';
-import Input from '@components/UI/Input';
+import UIInput from '@components/UI/Input';
+import UIIconButton from '@components/UI/IconButton';
 
 const DATA: Array<IMessage> = [
   {
@@ -68,7 +70,12 @@ export default function Chat() {
           ))}
         </View>
       </ScrollView>
-      <Input />
+      <View style={styles.inputContainer}>
+        <UIInput value="" />
+        <UIIconButton>
+          <Send2 color={Colors.White} variant="Bold" size={24} />
+        </UIIconButton>
+      </View>
     </>
   );
 }
@@ -78,6 +85,12 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: Colors.White,
     flex: 1,
+    gap: 12
+  },
+  inputContainer: {
+    padding: 16,
+    backgroundColor: Colors.White,
+    flexDirection: 'row',
     gap: 12
   }
 });

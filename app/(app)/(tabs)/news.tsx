@@ -42,7 +42,7 @@ export default function News() {
         contentContainerStyle={{ gap: 8 }}
         columnWrapperStyle={{ gap: 8 }}
         renderItem={({ item }) => (
-          <Link style={{ flex: 1 }} href="/chat" key={item.id} asChild>
+          <Link style={{ flex: 1 }} href="/(app)/chat" key={item.id} asChild>
             <Pressable>
               <Card title={item.title} description={item.description} key={item.id} />
             </Pressable>

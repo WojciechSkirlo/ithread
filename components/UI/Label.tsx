@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-type LabelProps = {
+type UILabelProps = {
   children: ReactNode;
 };
 
-export default function Label({ children }: LabelProps) {
+export default function UILabel({ children }: UILabelProps) {
   return <Text style={styles.label}>{children}</Text>;
 }
 
