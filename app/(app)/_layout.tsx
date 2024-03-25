@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useAuth } from '@context/auth';
 import { Pressable } from 'react-native';
 import { Redirect, Stack, Link } from 'expo-router';
-import { Colors } from '@helpers/colors';
 import { ArrowLeft } from 'iconsax-react-native';
+import { Colors } from '@helpers/colors';
 
 export default function AppLayout() {
-  const [isAuthenticated] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
     return <Redirect href="/sign-in" />;

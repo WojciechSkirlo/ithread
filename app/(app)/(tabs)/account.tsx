@@ -1,17 +1,28 @@
 import { StyleSheet, View, Text } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import User from '@components/User';
 import Label from '@components/UI/Label';
+import UIButton from '@components/UI/Button';
 
 export default function Account() {
+  const router = useRouter();
+
+  const signOut = () => {
+    router.push('/sign-in');
+  };
+
   return (
     <View style={styles.container}>
-      <Label>Profile</Label>
       <View style={{ marginBottom: 16 }}>
+        <Label>Profile</Label>
         <User name={'Shawn Samson'} message={'shawnsamson@gmail.com'} />
       </View>
-      <Label>Version</Label>
-      <Text style={styles.version}>0.0.1</Text>
+      <View style={{ marginBottom: 16 }}>
+        <Label>Version</Label>
+        <Text style={styles.version}>0.0.1</Text>
+      </View>
+      <UIButton text="Sign Out" onPress={signOut} />
     </View>
   );
 }

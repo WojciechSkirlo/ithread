@@ -2,11 +2,11 @@ import { ReactNode } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 import { Colors } from '@helpers/colors';
 
-type IconButtonProps = {
+type UIIconButtonProps = {
   children: ReactNode;
 };
 
-export default function IconButton({ children }: IconButtonProps) {
+export default function UIIconButton({ children }: UIIconButtonProps) {
   return <Pressable style={styles.button}>{children}</Pressable>;
 }
 

@@ -4,5 +4,6 @@ export enum Colors {
   Gray = '#383838',
   GrayDark = '#222222',
   White = '#fff',
-  Black = '#000'
+  Black = '#000',
+  Accent = '#d8b4fe'
 }

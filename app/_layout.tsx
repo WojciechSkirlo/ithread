@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AuthProvider } from '@context/auth';
 import { Text } from 'react-native';
 import { usePathname, useGlobalSearchParams, Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -37,5 +39,11 @@ export default function HomeLayout() {
     return <Text>Loading...</Text>;
   }
 
-  return <Slot />;
+  return (
+    <SafeAreaProvider>
+      <AuthProvider>
+        <Slot />
+      </AuthProvider>
+    </SafeAreaProvider>
+  );
 }
