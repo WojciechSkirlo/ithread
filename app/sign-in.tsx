@@ -1,3 +1,4 @@
+import { useReducer } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -5,11 +6,43 @@ import { Colors } from '@helpers/colors';
 import UIInput from '@components/UI/Input';
 import UIButton from '@components/UI/Button';
 
+interface FormState {
+  email: string;
+  password: string;
+}
+
+interface FormAction {
+  type: 'SET_EMAIL' | 'SET_PASSWORD';
+  payload: string;
+}
+
+function reducer(state: FormState, action: FormAction) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case 'SET_EMAIL':
+      return { ...state, email: payload };
+    case 'SET_PASSWORD':
+      return { ...state, password: payload };
+    default:
+      return state;
+  }
+}
+
 export default function SignIn() {
+  const [state, dispatch] = useReducer(reducer, { email: '', password: '' });
+
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const redirectToHome = () => {
+  const handleSubmit = () => {
+    try {
+      console.log('Email:', state.email);
+      console.log('Password:', state.password);
+    } catch (error) {
+      console.log(error);
+    }
+
     router.push('/');
   };
 
@@ -30,12 +63,21 @@ export default function SignIn() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <UIInput value="" placeholder="Email" />
-            <UIInput value="" type="password" placeholder="Password" />
+            <UIInput
+              value={state.email}
+              placeholder="Email"
+              onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
+            />
+            <UIInput
+              value={state.password}
+              type="password"
+              placeholder="Password"
+              onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
+            />
           </View>
 
           <View style={styles.buttonLinkContainer}>
-            <UIButton text="Sign In" onPress={redirectToHome} />
+            <UIButton text="Sign In" onPress={handleSubmit} />
             <View style={styles.linkContainer}>
               <Text>Not a member yet?</Text>
               <Link style={styles.link} href="/sign-up">
@@ -74,7 +116,6 @@ const styles = StyleSheet.create({
   inputsButtonContainer: {
     gap: 12,
     flex: 1,
-    justifyContent: 'space-between',
     width: '100%'
   },
   inputsContainer: {

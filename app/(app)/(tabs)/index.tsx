@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { StyleSheet, View, Pressable, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
@@ -56,6 +57,10 @@ const DATA = [
 ];
 
 export default function Home() {
+  useEffect(() => {
+    console.log('Home screen mounted');
+  }, []);
+
   return (
     <ScrollView>
       <View style={styles.container}>

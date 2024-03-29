@@ -6,9 +6,10 @@ type UIInputProps = {
   type?: 'text' | 'password';
   placeholder?: string;
   multiline?: boolean;
+  onChangeText?: (value: string) => void;
 };
 
-export default function UIInput({ value, type = 'text', placeholder, multiline }: UIInputProps) {
+export default function UIInput({ value, type = 'text', placeholder, multiline, onChangeText }: UIInputProps) {
   return (
     <TextInput
       placeholder={placeholder}
@@ -18,7 +19,7 @@ export default function UIInput({ value, type = 'text', placeholder, multiline }
       selectionColor={Colors.Gray}
       cursorColor={Colors.Gray}
       value={value}
-      // onChangeText={setValue}
+      onChangeText={onChangeText}
       placeholderTextColor={Colors.GrayLight}
     />
   );
