@@ -23,7 +23,7 @@ router.get('/user', (_, res) => {
   res.json({
     firstName: 'Shawn',
     lastName: 'Samson',
-    email: ''
+    email: 'shawnsamson@gmail.cm'
   });
 });
 
