@@ -1,6 +1,8 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { useEffect } from 'react';
 import { useRouter } from 'expo-router';
+import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
+import axios from 'axios';
 import User from '@components/User';
 import Label from '@components/UI/Label';
 import UIButton from '@components/UI/Button';
@@ -12,13 +14,29 @@ export default function Account() {
     router.push('/sign-in');
   };
 
+  useEffect(() => {
+    axios.defaults.baseURL = process.env.EXPO_PUBLIC_API_URL;
+
+    const fetchData = async () => {
+      try {
+        const response = (await axios.get('api')).data;
+
+        console.log('axios', response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <View style={{ marginBottom: 16 }}>
+      <View style={styles.group}>
         <Label>Profile</Label>
         <User name={'Shawn Samson'} message={'shawnsamson@gmail.com'} />
       </View>
-      <View style={{ marginBottom: 16 }}>
+      <View style={styles.group}>
         <Label>Version</Label>
         <Text style={styles.version}>0.0.1</Text>
       </View>
@@ -33,6 +51,9 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     backgroundColor: Colors.White,
     flex: 1
+  },
+  group: {
+    marginBottom: 16
   },
   version: {
     fontFamily: 'Poppins-Regular',
