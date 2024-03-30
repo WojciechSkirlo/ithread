@@ -1,22 +1,22 @@
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Colors } from '@helpers/colors';
 
-type UserProps = {
-  name: string;
-  message: string;
+type UIUserProps = {
+  user: string;
+  text: string;
 };
 
-export default function User({ name, message }: UserProps) {
+export default function UIUser({ user, text }: UIUserProps) {
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
         <Image style={styles.avatar} source={require('@assets/img/avatar.png')} />
       </View>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Text style={styles.username}>{name}</Text>
-        <View style={{ flexDirection: 'row', width: '100%' }}>
-          <Text style={styles.message} numberOfLines={1}>
-            {message}
+      <View style={styles.dataContainer}>
+        <Text style={styles.username}>{user}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.text} numberOfLines={1}>
+            {text}
           </Text>
         </View>
       </View>
@@ -47,13 +47,21 @@ const styles = StyleSheet.create({
     height: '100%',
     objectFit: 'cover'
   },
+  dataContainer: {
+    flex: 1,
+    justifyContent: 'center'
+  },
   username: {
     fontFamily: 'Poppins-Medium',
     fontSize: 14,
     color: Colors.Gray,
     lineHeight: 22
   },
-  message: {
+  textContainer: {
+    flexDirection: 'row',
+    width: '100%'
+  },
+  text: {
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
     lineHeight: 18,

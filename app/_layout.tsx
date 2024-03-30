@@ -5,8 +5,10 @@ import { AuthProvider } from '@context/auth';
 import { Text } from 'react-native';
 import { usePathname, useGlobalSearchParams, Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import axios from 'axios';
 
 SplashScreen.preventAutoHideAsync();
+axios.defaults.baseURL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function HomeLayout() {
   const [isFontLoaded, fontError] = useFonts({

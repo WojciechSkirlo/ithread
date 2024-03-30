@@ -3,7 +3,7 @@ import { StyleSheet, View, Pressable, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import Label from '@components/UI/Label';
-import User from '@components/User';
+import User from '@components/UI/User';
 
 const DATA = [
   {
@@ -69,7 +69,7 @@ export default function Home() {
           {DATA.map((item) => (
             <Link href="/(app)/chat" key={item.id} asChild>
               <Pressable>
-                <User name={item.fullName} message={item.message} />
+                <User user={item.fullName} text={item.message} />
               </Pressable>
             </Link>
           ))}

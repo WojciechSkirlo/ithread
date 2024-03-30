@@ -1,14 +1,14 @@
 import React from 'react';
 
 interface Context {
+  signIn: () => void;
+  signOut: () => void;
   isAuthenticated: boolean;
 }
 
 const AuthContext = React.createContext<Context>({
-  // signIn: () => null,
-  // signOut: () => null,
-  // session: null,
-  // isLoading: false,
+  signIn: () => null,
+  signOut: () => null,
   isAuthenticated: true
 });
 
@@ -25,19 +25,11 @@ export function useAuth() {
 }
 
 export function AuthProvider(props: React.PropsWithChildren) {
-  //   const [[isLoading, session], setSession] = useStorageState('session');
-  // const session = 'test';
-  // const isLoading = false;
-  // const setSession = (test: string) => null;
-  // const
-
   return (
     <AuthContext.Provider
       value={{
-        // signIn: () => null,
-        // signOut: () => null,
-        // session,
-        // isLoading,
+        signIn: () => null,
+        signOut: () => null,
         isAuthenticated: true
       }}
     >

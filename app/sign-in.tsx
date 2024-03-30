@@ -1,7 +1,8 @@
 import { useReducer } from 'react';
+import { useAuth } from '@context/auth';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { Link, useRouter } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@helpers/colors';
 import UIInput from '@components/UI/Input';
 import UIButton from '@components/UI/Button';
@@ -31,7 +32,7 @@ function reducer(state: FormState, action: FormAction) {
 
 export default function SignIn() {
   const [state, dispatch] = useReducer(reducer, { email: '', password: '' });
-
+  const { signIn } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -39,6 +40,8 @@ export default function SignIn() {
     try {
       console.log('Email:', state.email);
       console.log('Password:', state.password);
+
+      signIn();
     } catch (error) {
       console.log(error);
     }
