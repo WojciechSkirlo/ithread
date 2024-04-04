@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
+require('dotenv').config();
 
 const router = express.Router();
 const authRouter = require('./src/routes/Auth.routes');
@@ -9,7 +10,7 @@ const userRouter = require('./src/routes/User.routes');
 const app = express();
 const connectDB = require('./src/config/database');
 
-connectDB().catch(console.dir);
+connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
