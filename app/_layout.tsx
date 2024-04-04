@@ -3,7 +3,8 @@ import { useFonts } from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from '@context/auth';
 import { Text } from 'react-native';
-import { usePathname, useGlobalSearchParams, Slot } from 'expo-router';
+import { Slot } from 'expo-router';
+// import { usePathname, useGlobalSearchParams } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import axios from 'axios';
 
@@ -19,8 +20,8 @@ export default function HomeLayout() {
   });
 
   // For tracking
-  const pathname = usePathname();
-  const params = useGlobalSearchParams();
+  // const pathname = usePathname();
+  // const params = useGlobalSearchParams();
 
   useEffect(() => {
     const onLayoutRootView = async () => {
@@ -33,9 +34,9 @@ export default function HomeLayout() {
   }, [isFontLoaded, fontError]);
 
   //  For tracking
-  useEffect(() => {
-    console.log('pathname', pathname, 'params', params);
-  }, [pathname, params]);
+  // useEffect(() => {
+  //   console.log('pathname', pathname, 'params', params);
+  // }, [pathname, params]);
 
   if (!isFontLoaded && !fontError) {
     return <Text>Loading...</Text>;

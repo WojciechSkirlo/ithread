@@ -4,49 +4,66 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
+import { SignInForm } from '@ts/index';
 import UIInput from '@components/UI/Input';
 import UIButton from '@components/UI/Button';
+import UIFormGroup from '@components/UI/FormGroup';
 
-interface FormState {
-  email: string;
-  password: string;
+interface FormState extends SignInForm {
+  errors: Record<string, string>;
 }
 
 interface FormAction {
-  type: 'SET_EMAIL' | 'SET_PASSWORD';
-  payload: string;
+  type: 'SET_EMAIL' | 'SET_PASSWORD' | 'SET_ERRORS';
+  payload: string | Record<string, string>;
 }
 
 function reducer(state: FormState, action: FormAction) {
   const { type, payload } = action;
 
-  switch (type) {
-    case 'SET_EMAIL':
-      return { ...state, email: payload };
-    case 'SET_PASSWORD':
-      return { ...state, password: payload };
-    default:
-      return state;
+  if (typeof payload === 'string' && type !== 'SET_ERRORS') {
+    switch (type) {
+      case 'SET_EMAIL':
+        return { ...state, email: payload };
+      case 'SET_PASSWORD':
+        return { ...state, password: payload };
+    }
   }
+
+  if (type === 'SET_ERRORS' && typeof payload === 'object') {
+    return { ...state, errors: payload };
+  }
+
+  return state;
 }
 
 export default function SignIn() {
-  const [state, dispatch] = useReducer(reducer, { email: '', password: '' });
+  const [state, dispatch] = useReducer(reducer, { email: '', password: '', errors: {} });
   const { signIn } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (!state.email) errors.email = 'Email is required';
+    if (!/\S+@\S+\.\S+/.test(state.email)) errors.email = 'Email is invalid';
+    if (!state.password) errors.password = 'Password is required';
+
+    dispatch({ type: 'SET_ERRORS', payload: errors });
+
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = () => {
     try {
-      console.log('Email:', state.email);
-      console.log('Password:', state.password);
+      if (!validateForm()) return;
 
-      signIn();
+      signIn(state);
+      router.push('/');
     } catch (error) {
       console.log(error);
     }
-
-    router.push('/');
   };
 
   return (
@@ -66,17 +83,21 @@ export default function SignIn() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <UIInput
-              value={state.email}
-              placeholder="Email"
-              onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
-            />
-            <UIInput
-              value={state.password}
-              type="password"
-              placeholder="Password"
-              onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
-            />
+            <UIFormGroup error={state.errors['email']}>
+              <UIInput
+                value={state.email}
+                placeholder="Email"
+                onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
+              />
+            </UIFormGroup>
+            <UIFormGroup error={state.errors['password']}>
+              <UIInput
+                value={state.password}
+                type="password"
+                placeholder="Password"
+                onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
+              />
+            </UIFormGroup>
           </View>
 
           <View style={styles.buttonLinkContainer}>

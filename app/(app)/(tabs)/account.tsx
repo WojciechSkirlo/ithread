@@ -21,7 +21,9 @@ export default function Account() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = (await axios.get('/api/user')).data;
+        const response = (await axios.get('/api/user/me')).data;
+
+        console.log(response);
 
         setUser({
           name: `${response.firstName} ${response.lastName}`,

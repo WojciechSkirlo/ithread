@@ -19,8 +19,9 @@ export default function UIInput({ value, type = 'text', placeholder, multiline, 
       selectionColor={Colors.Gray}
       cursorColor={Colors.Gray}
       value={value}
-      onChangeText={onChangeText}
       placeholderTextColor={Colors.GrayLight}
+      autoComplete="off"
+      onChangeText={onChangeText}
     />
   );
 }
