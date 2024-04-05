@@ -1,5 +1,7 @@
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
+import { User } from 'iconsax-react-native';
+import React from 'react';
 
 type UIUserProps = {
   user: string;
@@ -10,7 +12,7 @@ export default function UIUser({ user, text }: UIUserProps) {
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
-        <Image style={styles.avatar} source={require('@assets/img/avatar.png')} />
+        <User color={Colors.Black} variant="Linear" size={24} />
       </View>
       <View style={styles.dataContainer}>
         <Text style={styles.username}>{user}</Text>
@@ -37,15 +39,21 @@ const styles = StyleSheet.create({
     gap: 18
   },
   avatarContainer: {
-    backgroundColor: 'rgba(102, 178, 233, 0.15)',
+    backgroundColor: Colors.GrayLight,
     borderRadius: 9999,
     height: 50,
-    width: 50
+    width: 50,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   avatar: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
+    backgroundColor: Colors.Black,
+    height: 20,
+    width: 20,
+    borderRadius: 9999
+    // width: '100%',
+    // height: '100%',
+    // objectFit: 'cover'
   },
   dataContainer: {
     flex: 1,

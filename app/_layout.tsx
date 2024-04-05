@@ -4,11 +4,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from '@context/auth';
 import { Text } from 'react-native';
 import { Slot } from 'expo-router';
-// import { usePathname, useGlobalSearchParams } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import axios from 'axios';
 
 SplashScreen.preventAutoHideAsync();
+
 axios.defaults.baseURL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function HomeLayout() {
@@ -19,10 +19,6 @@ export default function HomeLayout() {
     'Poppins-Semibold': require('@assets/fonts/Poppins-SemiBold.ttf')
   });
 
-  // For tracking
-  // const pathname = usePathname();
-  // const params = useGlobalSearchParams();
-
   useEffect(() => {
     const onLayoutRootView = async () => {
       if (isFontLoaded || fontError) {
@@ -32,11 +28,6 @@ export default function HomeLayout() {
 
     onLayoutRootView();
   }, [isFontLoaded, fontError]);
-
-  //  For tracking
-  // useEffect(() => {
-  //   console.log('pathname', pathname, 'params', params);
-  // }, [pathname, params]);
 
   if (!isFontLoaded && !fontError) {
     return <Text>Loading...</Text>;

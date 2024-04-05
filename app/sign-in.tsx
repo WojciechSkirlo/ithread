@@ -38,7 +38,7 @@ function reducer(state: FormState, action: FormAction) {
 }
 
 export default function SignIn() {
-  const [state, dispatch] = useReducer(reducer, { email: '', password: '', errors: {} });
+  const [state, dispatch] = useReducer(reducer, { email: 'admin@test.pl', password: '', errors: {} });
   const { signIn } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -55,14 +55,19 @@ export default function SignIn() {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       if (!validateForm()) return;
 
-      signIn(state);
+      await signIn({ email: state.email, password: state.password });
       router.push('/');
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const status = error?.response?.status;
+
+      if (status === 401) {
+        const errors = error?.response?.data?.errors ?? {};
+        dispatch({ type: 'SET_ERRORS', payload: errors });
+      }
     }
   };
 

@@ -13,3 +13,7 @@ export interface SignUpForm extends SignInForm {
   username: string;
   confirm_password: string;
 }
+
+export interface Statement {
+  message: string;
+}

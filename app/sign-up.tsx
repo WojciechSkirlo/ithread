@@ -49,7 +49,7 @@ export default function SignUp() {
     confirm_password: '',
     errors: {}
   });
-  const { signIn } = useAuth();
+  const { signUp } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -60,6 +60,7 @@ export default function SignUp() {
     if (!state.email) errors.email = 'Email is required';
     if (!/\S+@\S+\.\S+/.test(state.email)) errors.email = 'Email is invalid';
     if (!state.password) errors.password = 'Password is required';
+    if (state.password.length < 8) errors.password = 'Password should be at least 8 characters';
     if (!state.confirm_password) errors.confirm_password = 'Confirm Password is required';
     if (state.password !== state.confirm_password) errors.confirm_password = 'Passwords do not match';
 
@@ -68,13 +69,24 @@ export default function SignUp() {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       if (!validateForm()) return;
-      signIn({ email: state.email, password: state.password });
+
+      await signUp({
+        username: state.username,
+        email: state.email,
+        password: state.password,
+        confirm_password: state.confirm_password
+      });
       router.push('/sign-in');
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const status = error?.response?.status;
+
+      if (status === 400) {
+        const errors = error?.response?.data?.errors ?? {};
+        dispatch({ type: 'SET_ERRORS', payload: errors });
+      }
     }
   };
 
@@ -90,7 +102,7 @@ export default function SignUp() {
             <UIFormGroup error={state.errors['username']}>
               <UIInput
                 value={state.username}
-                placeholder="Username"
+                placeholder="Full name"
                 onChangeText={(value) => dispatch({ type: 'SET_USERNAME', payload: value })}
               />
             </UIFormGroup>

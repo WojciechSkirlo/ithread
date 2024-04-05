@@ -7,12 +7,12 @@ async function signUp(req, res) {
     const { username, email, password, confirm_password } = req.body;
 
     if (password !== confirm_password) {
-      return res.status(400).json({ message: 'Passwords do not match' });
+      return res.status(400).json({ errors: { confirm_password: 'Passwords do not match' } });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ errors: { email: 'User already exists' } });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,10 +37,10 @@ async function signIn(req, res) {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(401).json({ message: 'Invalid email or password' });
+    if (!user) return res.status(401).json({ errors: { password: 'Invalid email or password' } });
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) return res.status(401).json({ message: 'Invalid email or password' });
+    if (!isPasswordValid) return res.status(401).json({ errors: { password: 'Invalid email or password' } });
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '1h'
@@ -48,7 +48,6 @@ async function signIn(req, res) {
 
     res.status(200).json({ message: 'User signed in', token });
   } catch (err) {
-    console.error('Error signing in user:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 }

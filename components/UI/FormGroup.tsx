@@ -1,9 +1,10 @@
+import { ReactNode } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
 
 type UIFormGroupProps = {
   error: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export default function UIFormGroup({ error, children }: UIFormGroupProps) {

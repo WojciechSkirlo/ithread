@@ -1,17 +1,18 @@
-import { useState, useContext, createContext } from 'react';
+import axios from 'axios';
+import { useState, useContext, createContext, PropsWithChildren } from 'react';
 import { SignInForm, SignUpForm } from '@ts/index';
 import AuthService from '@services/Auth';
 
 interface Context {
-  signIn: (form: SignInForm) => void;
-  signUp: (form: SignUpForm) => void;
+  signIn: (form: SignInForm) => Promise<void>;
+  signUp: (form: SignUpForm) => Promise<void>;
   signOut: () => void;
   isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<Context>({
-  signIn: () => null,
-  signUp: () => null,
+  signIn: () => Promise.resolve(),
+  signUp: () => Promise.resolve(),
   signOut: () => null,
   isAuthenticated: true
 });
@@ -28,28 +29,28 @@ export function useAuth() {
   return value;
 }
 
-export function AuthProvider(props: React.PropsWithChildren) {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+export function AuthProvider(props: PropsWithChildren) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const signIn = async (form: SignInForm) => {
     try {
       const response = await AuthService.signIn(form);
-      setIsAuthenticated(true);
 
-      console.log('Response:', response);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.token}`;
+      setIsAuthenticated(true);
     } catch (error) {
-      console.error('Error:', error);
+      setIsAuthenticated(false);
+      throw error;
     }
   };
 
-  const signUp = (form: SignUpForm) => {
-    const response = AuthService.signUp(form);
-
-    console.log('Response:', response);
+  const signUp = async (form: SignUpForm) => {
+    await AuthService.signUp(form);
   };
 
   const signOut = () => {
-    console.log('Sign out');
+    axios.defaults.headers.common['Authorization'] = undefined;
+    setIsAuthenticated(false);
   };
 
   return (

@@ -3,13 +3,13 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '@context/auth';
 import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
-import axios from 'axios';
+import UserService from '@services/User';
 import User from '@components/UI/User';
 import Label from '@components/UI/Label';
 import UIButton from '@components/UI/Button';
 
 export default function Account() {
-  const [user, setUser] = useState({ name: '', email: '' });
+  const [user, setUser] = useState({ username: '', email: '' });
   const { signOut } = useAuth();
   const router = useRouter();
 
@@ -21,12 +21,10 @@ export default function Account() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = (await axios.get('/api/user/me')).data;
-
-        console.log(response);
+        const response = await UserService.me();
 
         setUser({
-          name: `${response.firstName} ${response.lastName}`,
+          username: response.username,
           email: response.email
         });
       } catch (error) {
@@ -41,7 +39,7 @@ export default function Account() {
     <View style={styles.container}>
       <View style={styles.group}>
         <Label>Profile</Label>
-        <User user={user.name} text={user.email} />
+        <User user={user.username} text={user.email} />
       </View>
       <View style={styles.group}>
         <Label>Version</Label>
