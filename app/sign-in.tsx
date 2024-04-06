@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import { useAuth } from '@context/auth';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import { Link, useRouter } from 'expo-router';
+import { Link, Redirect, useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { SignInForm } from '@ts/index';
 import UIInput from '@components/UI/Input';
@@ -39,9 +39,13 @@ function reducer(state: FormState, action: FormAction) {
 
 export default function SignIn() {
   const [state, dispatch] = useReducer(reducer, { email: 'admin@test.pl', password: '', errors: {} });
-  const { signIn } = useAuth();
+  const { signIn, isAuthenticated } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+
+  if (isAuthenticated) {
+    return <Redirect href="/" />;
+  }
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
@@ -111,6 +115,9 @@ export default function SignIn() {
               <Text>Not a member yet?</Text>
               <Link style={styles.link} href="/sign-up">
                 Sign Up
+              </Link>
+              <Link style={styles.link} href="/">
+                Test
               </Link>
             </View>
           </View>

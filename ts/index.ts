@@ -1,7 +1,10 @@
-export interface Message {
-  id: string;
-  text: string;
-  sender: 'me' | 'friend';
+export interface Statement {
+  message: string;
+}
+
+export interface User {
+  username: string;
+  email: string;
 }
 
 export interface SignInForm {
@@ -14,6 +17,8 @@ export interface SignUpForm extends SignInForm {
   confirm_password: string;
 }
 
-export interface Statement {
-  message: string;
+export interface Message {
+  id: string;
+  text: string;
+  sender: 'me' | 'friend';
 }
