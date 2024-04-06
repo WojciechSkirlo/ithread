@@ -53,6 +53,30 @@ const DATA = [
     fullName: 'Tina',
     message: 'What is the meaning of “Serendipity”?'
     // avatar: require('@assets/img/avatar.png')
+  },
+  {
+    id: '9',
+    fullName: 'Shawn Samson',
+    message: 'Hi! Can you show your homework? asda sdoj asdij aosi djojasdij asiod'
+    // avatar: require('@assets/img/avatar.png')
+  },
+  {
+    id: '10',
+    fullName: 'Amanda',
+    message: 'Hello there'
+    // avatar: require('@assets/img/avatar.png')
+  },
+  {
+    id: '11',
+    fullName: 'John Doe',
+    message: 'Hello! how may I help you today?'
+    // avatar: require('@assets/img/avatar.png')
+  },
+  {
+    id: '12',
+    fullName: 'Tina',
+    message: 'What is the meaning of “Serendipity”?'
+    // avatar: require('@assets/img/avatar.png')
   }
 ];
 
@@ -62,7 +86,7 @@ export default function Home() {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.scrollContainer}>
       <View style={styles.container}>
         <Label>Friends</Label>
         <View style={{ gap: 8 }}>
@@ -80,10 +104,11 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: Colors.White
+  },
   container: {
     padding: 16,
-    paddingTop: 4,
-    backgroundColor: Colors.White,
-    flex: 1
+    paddingTop: 8
   }
 });

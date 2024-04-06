@@ -5,9 +5,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Link, useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { SignUpForm } from '@ts/index';
-import UIInput from '@components/UI/Input';
-import UIButton from '@components/UI/Button';
-import UIFormGroup from '@components/UI/FormGroup';
+import Input from '@components/UI/Input';
+import Button from '@components/UI/Button';
+import FormGroup from '@components/UI/FormGroup';
 
 interface FormState extends SignUpForm {
   errors: Record<string, string>;
@@ -91,7 +91,7 @@ export default function SignUp() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="handled">
       <View style={[styles.container, { paddingBottom: insets.bottom + 24, paddingTop: insets.top + 16 }]}>
         <View style={styles.logoContainer}>
           <Image source={require('@assets/icon.png')} style={styles.logo} />
@@ -99,40 +99,40 @@ export default function SignUp() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <UIFormGroup error={state.errors['username']}>
-              <UIInput
+            <FormGroup error={state.errors['username']}>
+              <Input
                 value={state.username}
                 placeholder="Full name"
                 onChangeText={(value) => dispatch({ type: 'SET_USERNAME', payload: value })}
               />
-            </UIFormGroup>
-            <UIFormGroup error={state.errors['email']}>
-              <UIInput
+            </FormGroup>
+            <FormGroup error={state.errors['email']}>
+              <Input
                 value={state.email}
                 placeholder="Email"
                 onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
               />
-            </UIFormGroup>
-            <UIFormGroup error={state.errors['password']}>
-              <UIInput
+            </FormGroup>
+            <FormGroup error={state.errors['password']}>
+              <Input
                 value={state.password}
                 type="password"
                 placeholder="Password"
                 onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
               />
-            </UIFormGroup>
-            <UIFormGroup error={state.errors['confirm_password']}>
-              <UIInput
+            </FormGroup>
+            <FormGroup error={state.errors['confirm_password']}>
+              <Input
                 value={state.confirm_password}
                 type="password"
                 placeholder="Confirm Password"
                 onChangeText={(value) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: value })}
               />
-            </UIFormGroup>
+            </FormGroup>
           </View>
 
           <View style={styles.buttonLinkContainer}>
-            <UIButton text="Sign Up" onPress={handleSubmit} />
+            <Button text="Sign Up" onPress={handleSubmit} />
             <View style={styles.linkContainer}>
               <Text>Already have an account?</Text>
               <Link style={styles.link} href="/sign-in">

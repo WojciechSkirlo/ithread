@@ -1,15 +1,18 @@
 import { ReactNode } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
+import Label from '@components/UI/Label';
 
 type UIFormGroupProps = {
-  error: string;
+  label?: string;
+  error?: string;
   children: ReactNode;
 };
 
-export default function UIFormGroup({ error, children }: UIFormGroupProps) {
+export default function UIFormGroup({ label, error, children }: UIFormGroupProps) {
   return (
     <View>
+      {label && <Label>{label}</Label>}
       {children}
       {error && <Text style={styles.error}>{error}</Text>}
     </View>

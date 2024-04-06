@@ -30,10 +30,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.GrayLightest,
     borderRadius: 10,
-    paddingLeft: 12,
-    paddingRight: 12,
-    paddingBottom: 16,
-    paddingTop: 16,
+    padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 18

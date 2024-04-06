@@ -23,12 +23,11 @@ const styles = StyleSheet.create({
     height: 52,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
-    fontSize: 16
+    borderRadius: 10
   },
   text: {
     color: Colors.White,
     fontSize: 14,
-    fontWeight: '500'
+    fontWeight: '600'
   }
 });

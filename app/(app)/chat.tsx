@@ -4,8 +4,8 @@ import { Message as IMessage } from '@ts/index';
 import { Send2 } from 'iconsax-react-native';
 import { Colors } from '@helpers/colors';
 import Message from '@components/Message';
-import UIInput from '@components/UI/Input';
-import UIIconButton from '@components/UI/IconButton';
+import Input from '@components/UI/Input';
+import IconButton from '@components/UI/IconButton';
 
 const DATA: Array<IMessage> = [
   {
@@ -71,10 +71,10 @@ export default function Chat() {
         </View>
       </ScrollView>
       <View style={styles.inputContainer}>
-        <UIInput value="" />
-        <UIIconButton>
+        <Input value="" />
+        <IconButton>
           <Send2 color={Colors.White} variant="Bold" size={24} />
-        </UIIconButton>
+        </IconButton>
       </View>
     </>
   );

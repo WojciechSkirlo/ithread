@@ -1,6 +1,7 @@
 import React from 'react';
-import { Tabs } from 'expo-router';
-import { MessageText, User, Element4 } from 'iconsax-react-native';
+import { Pressable } from 'react-native';
+import { Tabs, Link } from 'expo-router';
+import { MessageText, User, Element4, AddCircle, NotificationStatus } from 'iconsax-react-native';
 import { Colors } from '@helpers/colors';
 
 export default function TabsLayout() {
@@ -22,10 +23,18 @@ export default function TabsLayout() {
           backgroundColor: Colors.White
         },
         headerTitleStyle: {
-          fontFamily: 'Poppins-Medium'
+          fontFamily: 'Poppins-Medium',
+          fontSize: 18
         },
         headerTitleAlign: 'center',
-        headerTintColor: Colors.GrayDark
+        headerTintColor: Colors.GrayDark,
+        headerLeft: () => (
+          <Link href="/requests" asChild style={{ marginLeft: 16 }}>
+            <Pressable>
+              <NotificationStatus color={Colors.GrayDark} variant="Outline" size={24} />
+            </Pressable>
+          </Link>
+        )
       }}
     >
       <Tabs.Screen
@@ -34,6 +43,13 @@ export default function TabsLayout() {
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
             <MessageText color={color} variant={`${focused ? 'Bold' : 'Linear'}`} size={24} />
+          ),
+          headerRight: () => (
+            <Link href="/search" asChild style={{ marginRight: 16 }}>
+              <Pressable>
+                <AddCircle color={Colors.GrayDark} variant="Outline" size={24} />
+              </Pressable>
+            </Link>
           )
         }}
       />

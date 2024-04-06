@@ -57,7 +57,7 @@ export default function News() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    paddingTop: 4,
+    paddingTop: 8,
     backgroundColor: Colors.White,
     flex: 1
   }

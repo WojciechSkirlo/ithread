@@ -3,9 +3,9 @@ import { useAuth } from '@context/auth';
 import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
 import Constants from 'expo-constants';
+import FormGroup from '@components/UI/FormGroup';
 import User from '@components/UI/User';
-import Label from '@components/UI/Label';
-import UIButton from '@components/UI/Button';
+import Button from '@components/UI/Button';
 
 export default function Account() {
   const { signOut, user } = useAuth();
@@ -19,18 +19,15 @@ export default function Account() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.group}>
-        <Label>Profile</Label>
+      <FormGroup label="Profile">
         <User user={user?.username ?? ''} text={user?.email ?? ''} />
-      </View>
+      </FormGroup>
       {version ? (
-        <View style={styles.group}>
-          <Label>Version</Label>
+        <FormGroup label="Version">
           <Text style={styles.version}>{version}</Text>
-        </View>
+        </FormGroup>
       ) : null}
-      <UIButton text="Sign Out" onPress={handleSignOut} />
-
+      <Button text="Sign Out" onPress={handleSignOut} />
       <Link href="/sign-in">Test</Link>
     </View>
   );
@@ -39,12 +36,10 @@ export default function Account() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    paddingTop: 4,
+    paddingTop: 8,
     backgroundColor: Colors.White,
-    flex: 1
-  },
-  group: {
-    marginBottom: 16
+    flex: 1,
+    gap: 16
   },
   version: {
     fontFamily: 'Poppins-Regular',
