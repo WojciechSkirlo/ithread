@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { StyleSheet, View, Pressable, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
-import Label from '@components/UI/Label';
 import User from '@components/UI/User';
+import Group from '@components/UI/Group';
 
 const DATA = [
   {
@@ -88,16 +88,17 @@ export default function Home() {
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={styles.container}>
-        <Label>Friends</Label>
-        <View style={{ gap: 8 }}>
-          {DATA.map((item) => (
-            <Link href="/(app)/chat" key={item.id} asChild>
-              <Pressable>
-                <User user={item.fullName} text={item.message} />
-              </Pressable>
-            </Link>
-          ))}
-        </View>
+        <Group label="Friends">
+          <View style={{ gap: 8 }}>
+            {DATA.map((item) => (
+              <Link href="/(app)/chat" key={item.id} asChild>
+                <Pressable>
+                  <User header={item.fullName} description={item.message} />
+                </Pressable>
+              </Link>
+            ))}
+          </View>
+        </Group>
       </View>
     </ScrollView>
   );

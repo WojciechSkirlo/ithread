@@ -1,7 +1,6 @@
-import { useRef, useEffect } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Message as IMessage } from '@ts/index';
-import { Send2 } from 'iconsax-react-native';
 import { Colors } from '@helpers/colors';
 import Message from '@components/Message';
 import Input from '@components/UI/Input';
@@ -72,9 +71,7 @@ export default function Chat() {
       </ScrollView>
       <View style={styles.inputContainer}>
         <Input value="" />
-        <IconButton>
-          <Send2 color={Colors.White} variant="Bold" size={24} />
-        </IconButton>
+        <IconButton name="Send2" variant="Bold" color={Colors.White} size="large" />
       </View>
     </>
   );

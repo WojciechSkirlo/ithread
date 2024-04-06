@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable } from 'react-native';
-import { Tabs, Link } from 'expo-router';
-import { MessageText, User, Element4, AddCircle, NotificationStatus } from 'iconsax-react-native';
+import { Link, Tabs } from 'expo-router';
+import { AddSquare, Element4, MessageText, NotificationStatus, User } from 'iconsax-react-native';
 import { Colors } from '@helpers/colors';
 
 export default function TabsLayout() {
@@ -47,7 +47,7 @@ export default function TabsLayout() {
           headerRight: () => (
             <Link href="/search" asChild style={{ marginRight: 16 }}>
               <Pressable>
-                <AddCircle color={Colors.GrayDark} variant="Outline" size={24} />
+                <AddSquare color={Colors.GrayDark} variant="Outline" size={24} />
               </Pressable>
             </Link>
           )

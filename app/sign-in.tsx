@@ -7,7 +7,7 @@ import { Colors } from '@helpers/colors';
 import { SignInForm } from '@ts/index';
 import Input from '@components/UI/Input';
 import Button from '@components/UI/Button';
-import FormGroup from '@components/UI/FormGroup';
+import Group from '@components/UI/Group';
 
 interface FormState extends SignInForm {
   errors: Record<string, string>;
@@ -76,7 +76,7 @@ export default function SignIn() {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled">
+    <ScrollView keyboardShouldPersistTaps="handled" style={styles.scrollContainer}>
       <View
         style={[
           styles.container,
@@ -92,21 +92,21 @@ export default function SignIn() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <FormGroup error={state.errors['email']}>
+            <Group error={state.errors['email']}>
               <Input
                 value={state.email}
                 placeholder="Email"
                 onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
               />
-            </FormGroup>
-            <FormGroup error={state.errors['password']}>
+            </Group>
+            <Group error={state.errors['password']}>
               <Input
                 value={state.password}
                 type="password"
                 placeholder="Password"
                 onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
               />
-            </FormGroup>
+            </Group>
           </View>
 
           <View style={styles.buttonLinkContainer}>
@@ -128,6 +128,9 @@ export default function SignIn() {
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: Colors.White
+  },
   container: {
     flex: 1,
     alignItems: 'center',

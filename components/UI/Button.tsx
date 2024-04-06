@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     backgroundColor: Colors.Black,
     width: '100%',
-    height: 52,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.White,
     fontSize: 14,
-    fontWeight: '600'
+    fontWeight: '600',
+    textTransform: 'uppercase'
   }
 });

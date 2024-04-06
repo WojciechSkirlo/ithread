@@ -3,7 +3,7 @@ import { useAuth } from '@context/auth';
 import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
 import Constants from 'expo-constants';
-import FormGroup from '@components/UI/FormGroup';
+import Group from '@components/UI/Group';
 import User from '@components/UI/User';
 import Button from '@components/UI/Button';
 
@@ -19,13 +19,13 @@ export default function Account() {
 
   return (
     <View style={styles.container}>
-      <FormGroup label="Profile">
-        <User user={user?.username ?? ''} text={user?.email ?? ''} />
-      </FormGroup>
+      <Group label="Profile">
+        <User header={user?.username ?? ''} description={user?.email ?? ''} />
+      </Group>
       {version ? (
-        <FormGroup label="Version">
+        <Group label="Version">
           <Text style={styles.version}>{version}</Text>
-        </FormGroup>
+        </Group>
       ) : null}
       <Button text="Sign Out" onPress={handleSignOut} />
       <Link href="/sign-in">Test</Link>

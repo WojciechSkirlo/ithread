@@ -1,27 +1,29 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { ReactNode } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import { User } from 'iconsax-react-native';
-import React from 'react';
 
 type UIUserProps = {
-  user: string;
-  text: string;
+  header: string;
+  description: string;
+  children?: ReactNode;
 };
 
-export default function UIUser({ user, text }: UIUserProps) {
+export default function UIUser({ header, description, children }: UIUserProps) {
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
         <User color={Colors.Black} variant="Linear" size={24} />
       </View>
       <View style={styles.dataContainer}>
-        <Text style={styles.username}>{user}</Text>
-        <View style={styles.textContainer}>
-          <Text style={styles.text} numberOfLines={1}>
-            {text}
+        <Text style={styles.header}>{header}</Text>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.description} numberOfLines={1}>
+            {description}
           </Text>
         </View>
       </View>
+      {children}
     </View>
   );
 }
@@ -31,6 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.GrayLightest,
     borderRadius: 10,
     padding: 12,
+    paddingRight: 14,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 18
@@ -48,25 +51,22 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     borderRadius: 9999
-    // width: '100%',
-    // height: '100%',
-    // objectFit: 'cover'
   },
   dataContainer: {
     flex: 1,
     justifyContent: 'center'
   },
-  username: {
+  header: {
     fontFamily: 'Poppins-Medium',
     fontSize: 14,
     color: Colors.Gray,
     lineHeight: 22
   },
-  textContainer: {
+  descriptionContainer: {
     flexDirection: 'row',
     width: '100%'
   },
-  text: {
+  description: {
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
     lineHeight: 18,

@@ -7,7 +7,7 @@ import { Colors } from '@helpers/colors';
 import { SignUpForm } from '@ts/index';
 import Input from '@components/UI/Input';
 import Button from '@components/UI/Button';
-import FormGroup from '@components/UI/FormGroup';
+import Group from '@components/UI/Group';
 
 interface FormState extends SignUpForm {
   errors: Record<string, string>;
@@ -91,7 +91,7 @@ export default function SignUp() {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled">
+    <ScrollView keyboardShouldPersistTaps="handled" style={styles.scrollContainer}>
       <View style={[styles.container, { paddingBottom: insets.bottom + 24, paddingTop: insets.top + 16 }]}>
         <View style={styles.logoContainer}>
           <Image source={require('@assets/icon.png')} style={styles.logo} />
@@ -99,36 +99,36 @@ export default function SignUp() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <FormGroup error={state.errors['username']}>
+            <Group error={state.errors['username']}>
               <Input
                 value={state.username}
                 placeholder="Full name"
                 onChangeText={(value) => dispatch({ type: 'SET_USERNAME', payload: value })}
               />
-            </FormGroup>
-            <FormGroup error={state.errors['email']}>
+            </Group>
+            <Group error={state.errors['email']}>
               <Input
                 value={state.email}
                 placeholder="Email"
                 onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
               />
-            </FormGroup>
-            <FormGroup error={state.errors['password']}>
+            </Group>
+            <Group error={state.errors['password']}>
               <Input
                 value={state.password}
                 type="password"
                 placeholder="Password"
                 onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
               />
-            </FormGroup>
-            <FormGroup error={state.errors['confirm_password']}>
+            </Group>
+            <Group error={state.errors['confirm_password']}>
               <Input
                 value={state.confirm_password}
                 type="password"
                 placeholder="Confirm Password"
                 onChangeText={(value) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: value })}
               />
-            </FormGroup>
+            </Group>
           </View>
 
           <View style={styles.buttonLinkContainer}>
@@ -147,6 +147,9 @@ export default function SignUp() {
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: Colors.White
+  },
   container: {
     flex: 1,
     alignItems: 'center',
