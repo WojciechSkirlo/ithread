@@ -3,10 +3,13 @@ import { useFonts } from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from '@context/auth';
 import { Text } from 'react-native';
-import { usePathname, useGlobalSearchParams, Slot } from 'expo-router';
+import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import axios from 'axios';
 
 SplashScreen.preventAutoHideAsync();
+
+axios.defaults.baseURL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function HomeLayout() {
   const [isFontLoaded, fontError] = useFonts({
@@ -15,10 +18,6 @@ export default function HomeLayout() {
     'Poppins-Medium': require('@assets/fonts/Poppins-Medium.ttf'),
     'Poppins-Semibold': require('@assets/fonts/Poppins-SemiBold.ttf')
   });
-
-  // For tracking
-  const pathname = usePathname();
-  const params = useGlobalSearchParams();
 
   useEffect(() => {
     const onLayoutRootView = async () => {
@@ -29,11 +28,6 @@ export default function HomeLayout() {
 
     onLayoutRootView();
   }, [isFontLoaded, fontError]);
-
-  //  For tracking
-  useEffect(() => {
-    console.log('pathname', pathname, 'params', params);
-  }, [pathname, params]);
 
   if (!isFontLoaded && !fontError) {
     return <Text>Loading...</Text>;

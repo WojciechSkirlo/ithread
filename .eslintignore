@@ -5,3 +5,4 @@ dist
 dist/
 web-build/
 node_modules/
+server

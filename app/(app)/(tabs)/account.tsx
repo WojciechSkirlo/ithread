@@ -1,46 +1,33 @@
-import { useEffect } from 'react';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import { useAuth } from '@context/auth';
 import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
-import axios from 'axios';
-import User from '@components/User';
+import User from '@components/UI/User';
 import Label from '@components/UI/Label';
 import UIButton from '@components/UI/Button';
 
 export default function Account() {
+  const { signOut, user } = useAuth();
   const router = useRouter();
 
-  const signOut = () => {
+  const handleSignOut = () => {
+    signOut();
     router.push('/sign-in');
   };
-
-  useEffect(() => {
-    axios.defaults.baseURL = process.env.EXPO_PUBLIC_API_URL;
-
-    const fetchData = async () => {
-      try {
-        const response = (await axios.get('api')).data;
-
-        console.log('axios', response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.group}>
         <Label>Profile</Label>
-        <User name={'Shawn Samson'} message={'shawnsamson@gmail.com'} />
+        <User user={user?.username ?? ''} text={user?.email ?? ''} />
       </View>
       <View style={styles.group}>
         <Label>Version</Label>
         <Text style={styles.version}>0.0.1</Text>
       </View>
-      <UIButton text="Sign Out" onPress={signOut} />
+      <UIButton text="Sign Out" onPress={handleSignOut} />
+
+      <Link href="/sign-in">Test</Link>
     </View>
   );
 }
