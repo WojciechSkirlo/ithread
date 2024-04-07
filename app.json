@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ithread",
+    "name": "iThread",
     "scheme": "demo",
     "slug": "ithread",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -14,13 +14,15 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.woytek01.ithread"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.woytek01.ithread"
     },
     "plugins": [
       "expo-router",
@@ -34,6 +36,14 @@
           ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "278a62d5-9743-4778-9a9d-8663da482a72"
+      }
+    }
   }
 }

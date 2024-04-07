@@ -3,7 +3,8 @@ export interface Statement {
 }
 
 export interface User {
-  username: string;
+  _id: string;
+  name: string;
   email: string;
 }
 
@@ -13,7 +14,7 @@ export interface SignInForm {
 }
 
 export interface SignUpForm extends SignInForm {
-  username: string;
+  name: string;
   confirm_password: string;
 }
 

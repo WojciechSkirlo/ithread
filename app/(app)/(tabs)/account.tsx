@@ -2,13 +2,15 @@ import { Link, useRouter } from 'expo-router';
 import { useAuth } from '@context/auth';
 import { StyleSheet, View, Text } from 'react-native';
 import { Colors } from '@helpers/colors';
+import Constants from 'expo-constants';
+import Group from '@components/UI/Group';
 import User from '@components/UI/User';
-import Label from '@components/UI/Label';
-import UIButton from '@components/UI/Button';
+import Button from '@components/UI/Button';
 
 export default function Account() {
   const { signOut, user } = useAuth();
   const router = useRouter();
+  const version = Constants.expoConfig?.version;
 
   const handleSignOut = () => {
     signOut();
@@ -17,16 +19,15 @@ export default function Account() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.group}>
-        <Label>Profile</Label>
-        <User user={user?.username ?? ''} text={user?.email ?? ''} />
-      </View>
-      <View style={styles.group}>
-        <Label>Version</Label>
-        <Text style={styles.version}>0.0.1</Text>
-      </View>
-      <UIButton text="Sign Out" onPress={handleSignOut} />
-
+      <Group label="Profile">
+        <User header={user?.name ?? ''} description={user?.email ?? ''} />
+      </Group>
+      {version ? (
+        <Group label="Version">
+          <Text style={styles.version}>{version}</Text>
+        </Group>
+      ) : null}
+      <Button text="Sign Out" onPress={handleSignOut} />
       <Link href="/sign-in">Test</Link>
     </View>
   );
@@ -35,12 +36,10 @@ export default function Account() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    paddingTop: 4,
+    paddingTop: 8,
     backgroundColor: Colors.White,
-    flex: 1
-  },
-  group: {
-    marginBottom: 16
+    flex: 1,
+    gap: 16
   },
   version: {
     fontFamily: 'Poppins-Regular',

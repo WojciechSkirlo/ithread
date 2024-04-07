@@ -2,7 +2,7 @@ import { StyleSheet, View, Pressable, FlatList } from 'react-native';
 import { Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import Card from '@components/Card';
-import Label from '@components/UI/Label';
+import Group from '@components/UI/Group';
 
 const DATA = [
   {
@@ -35,21 +35,22 @@ const DATA = [
 export default function News() {
   return (
     <View style={styles.container}>
-      <Label>Updates</Label>
-      <FlatList
-        data={DATA}
-        numColumns={2}
-        contentContainerStyle={{ gap: 8 }}
-        columnWrapperStyle={{ gap: 8 }}
-        renderItem={({ item }) => (
-          <Link style={{ flex: 1 }} href="/(app)/chat" key={item.id} asChild>
-            <Pressable>
-              <Card title={item.title} description={item.description} key={item.id} />
-            </Pressable>
-          </Link>
-        )}
-        keyExtractor={(item) => item.id}
-      />
+      <Group label="Updates">
+        <FlatList
+          data={DATA}
+          numColumns={2}
+          contentContainerStyle={{ gap: 8 }}
+          columnWrapperStyle={{ gap: 8 }}
+          renderItem={({ item }) => (
+            <Link style={{ flex: 1 }} href="/(app)/chat" key={item.id} asChild>
+              <Pressable>
+                <Card title={item.title} description={item.description} key={item.id} />
+              </Pressable>
+            </Link>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </Group>
     </View>
   );
 }
@@ -57,7 +58,7 @@ export default function News() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    paddingTop: 4,
+    paddingTop: 8,
     backgroundColor: Colors.White,
     flex: 1
   }

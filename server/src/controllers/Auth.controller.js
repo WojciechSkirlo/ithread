@@ -4,7 +4,7 @@ const User = require('../models/User.model');
 
 async function signUp(req, res) {
   try {
-    const { username, email, password, confirm_password } = req.body;
+    const { name, email, password, confirm_password } = req.body;
 
     if (password !== confirm_password) {
       return res.status(400).json({ errors: { confirm_password: 'Passwords do not match' } });
@@ -18,7 +18,7 @@ async function signUp(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
-      username,
+      name,
       email,
       password: hashedPassword
     });

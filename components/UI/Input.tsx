@@ -29,7 +29,7 @@ export default function UIInput({ value, type = 'text', placeholder, multiline, 
 const styles = StyleSheet.create({
   input: {
     backgroundColor: Colors.White,
-    minHeight: 52,
+    minHeight: 50,
     maxHeight: 120,
     borderRadius: 10,
     borderColor: Colors.GrayLight,

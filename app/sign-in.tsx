@@ -5,9 +5,9 @@ import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { Link, Redirect, useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { SignInForm } from '@ts/index';
-import UIInput from '@components/UI/Input';
-import UIButton from '@components/UI/Button';
-import UIFormGroup from '@components/UI/FormGroup';
+import Input from '@components/UI/Input';
+import Button from '@components/UI/Button';
+import Group from '@components/UI/Group';
 
 interface FormState extends SignInForm {
   errors: Record<string, string>;
@@ -76,7 +76,7 @@ export default function SignIn() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="handled" style={styles.scrollContainer}>
       <View
         style={[
           styles.container,
@@ -92,32 +92,32 @@ export default function SignIn() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <UIFormGroup error={state.errors['email']}>
-              <UIInput
+            <Group error={state.errors['email']}>
+              <Input
                 value={state.email}
                 placeholder="Email"
                 onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
               />
-            </UIFormGroup>
-            <UIFormGroup error={state.errors['password']}>
-              <UIInput
+            </Group>
+            <Group error={state.errors['password']}>
+              <Input
                 value={state.password}
                 type="password"
                 placeholder="Password"
                 onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
               />
-            </UIFormGroup>
+            </Group>
           </View>
 
           <View style={styles.buttonLinkContainer}>
-            <UIButton text="Sign In" onPress={handleSubmit} />
+            <Button text="Sign In" onPress={handleSubmit} />
             <View style={styles.linkContainer}>
               <Text>Not a member yet?</Text>
               <Link style={styles.link} href="/sign-up">
                 Sign Up
               </Link>
               <Link style={styles.link} href="/">
-                Test
+                Testasdasd
               </Link>
             </View>
           </View>
@@ -128,6 +128,9 @@ export default function SignIn() {
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: Colors.White
+  },
   container: {
     flex: 1,
     alignItems: 'center',

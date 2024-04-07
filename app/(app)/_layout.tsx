@@ -1,8 +1,8 @@
 import { useAuth } from '@context/auth';
-import { Pressable } from 'react-native';
-import { Redirect, Stack, Link } from 'expo-router';
-import { ArrowLeft } from 'iconsax-react-native';
+import { Redirect, Stack } from 'expo-router';
 import { Colors } from '@helpers/colors';
+import BackButton from '@components/UI/BackButton';
+import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 
 export default function AppLayout() {
   const { isAuthenticated } = useAuth();
@@ -11,28 +11,40 @@ export default function AppLayout() {
     return <Redirect href="/sign-in" />;
   }
 
+  const options: NativeStackNavigationOptions = {
+    headerTitleStyle: {
+      fontFamily: 'Poppins-Medium',
+      fontSize: 18
+    },
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: Colors.White
+    },
+    headerShadowVisible: false,
+    headerLeft: ({ canGoBack }) => canGoBack && <BackButton />
+  };
+
   return (
     <Stack>
       <Stack.Screen
         name="chat"
         options={{
-          headerTitleStyle: {
-            fontFamily: 'Poppins-Medium'
-          },
-          headerTitleAlign: 'center',
           headerTitle: 'Chat',
-          headerStyle: {
-            backgroundColor: Colors.White
-          },
-          headerLeft: ({ canGoBack }) =>
-            canGoBack && (
-              <Link href="/" asChild>
-                <Pressable>
-                  <ArrowLeft color={Colors.GrayDark} variant="Linear" size={24} />
-                </Pressable>
-              </Link>
-            ),
-          headerShadowVisible: false
+          ...options
+        }}
+      />
+      <Stack.Screen
+        name="requests"
+        options={{
+          headerTitle: 'Friend requests',
+          ...options
+        }}
+      />
+      <Stack.Screen
+        name="search"
+        options={{
+          headerTitle: 'Search friends',
+          ...options
         }}
       />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
