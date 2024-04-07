@@ -1,22 +1,42 @@
-import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { useDebounce } from 'use-debounce';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
+import { User as IUser } from '@ts/index';
+import UserService from '@services/User';
 import Input from '@components/UI/Input';
 import IconButton from '@components/UI/IconButton';
 import User from '@components/UI/User';
 import Group from '@components/UI/Group';
-
-const DATA = [
-  {
-    id: 1,
-    fullName: 'John Doe'
-    // time:
-    // avatar: 'https://randomuser.me/api/portraits
-  }
-];
+import Button from '@components/UI/Button';
+import NoFound from '@components/System/NoFound';
 
 export default function Search() {
+  const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
+  const [debouncedValue] = useDebounce(value, 500);
+  const [results, setResults] = useState<IUser[]>([]);
+
+  const resultsCount = results.length;
+
+  const fetchData = async (query: string) => {
+    try {
+      setIsLoading(true);
+      const response = await UserService.search(query);
+      console.log('Respeonse', response);
+      setResults(response);
+    } catch (error) {
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (debouncedValue.length > 1) {
+      fetchData(debouncedValue).then();
+    }
+  }, [debouncedValue]);
 
   return (
     <View style={styles.container}>
@@ -25,26 +45,22 @@ export default function Search() {
         <IconButton name="SearchNormal1" variant="Bold" color={Colors.White} size="large" />
       </View>
       <ScrollView keyboardShouldPersistTaps="handled" style={styles.scrollContainer}>
-        <Group label="Results (1)">
-          <View style={{ gap: 8 }}>
-            {DATA.map((item) => (
-              <User key={item.id} header={`${item.fullName}`} description={'2h ago'}>
-                <View style={{ flexDirection: 'row', gap: 8 }}>
-                  <Pressable
-                    style={{
-                      backgroundColor: Colors.GrayDark,
-                      paddingVertical: 4,
-                      paddingHorizontal: 12,
-                      borderRadius: 9999
-                    }}
-                  >
-                    <Text style={{ fontSize: 12, color: Colors.White }}>Add</Text>
-                  </Pressable>
+        {isLoading ? null : (
+          <>
+            {value && results.length ? (
+              <Group label={`Results (${resultsCount})`}>
+                <View style={{ gap: 8 }}>
+                  {results.map((item) => (
+                    <User key={item._id} header={item.name} description={item.email}>
+                      <Button text="Add" size="small" />
+                    </User>
+                  ))}
                 </View>
-              </User>
-            ))}
-          </View>
-        </Group>
+              </Group>
+            ) : null}
+            {value && !results.length ? <NoFound /> : null}
+          </>
+        )}
       </ScrollView>
     </View>
   );

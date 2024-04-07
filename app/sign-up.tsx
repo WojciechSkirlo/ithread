@@ -14,7 +14,7 @@ interface FormState extends SignUpForm {
 }
 
 interface FormAction {
-  type: 'SET_USERNAME' | 'SET_EMAIL' | 'SET_PASSWORD' | 'SET_CONFIRM_PASSWORD' | 'SET_ERRORS';
+  type: 'SET_NAME' | 'SET_EMAIL' | 'SET_PASSWORD' | 'SET_CONFIRM_PASSWORD' | 'SET_ERRORS';
   payload: string | Record<string, string>;
 }
 
@@ -23,8 +23,8 @@ function reducer(state: FormState, action: FormAction) {
 
   if (typeof payload === 'string' && type !== 'SET_ERRORS') {
     switch (type) {
-      case 'SET_USERNAME':
-        return { ...state, username: payload };
+      case 'SET_NAME':
+        return { ...state, name: payload };
       case 'SET_EMAIL':
         return { ...state, email: payload };
       case 'SET_PASSWORD':
@@ -43,7 +43,7 @@ function reducer(state: FormState, action: FormAction) {
 
 export default function SignUp() {
   const [state, dispatch] = useReducer(reducer, {
-    username: '',
+    name: '',
     email: '',
     password: '',
     confirm_password: '',
@@ -56,7 +56,7 @@ export default function SignUp() {
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
-    if (!state.username) errors.username = 'Username is required';
+    if (!state.name) errors.name = 'Name is required';
     if (!state.email) errors.email = 'Email is required';
     if (!/\S+@\S+\.\S+/.test(state.email)) errors.email = 'Email is invalid';
     if (!state.password) errors.password = 'Password is required';
@@ -74,7 +74,7 @@ export default function SignUp() {
       if (!validateForm()) return;
 
       await signUp({
-        username: state.username,
+        name: state.name,
         email: state.email,
         password: state.password,
         confirm_password: state.confirm_password
@@ -99,11 +99,11 @@ export default function SignUp() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <Group error={state.errors['username']}>
+            <Group error={state.errors['name']}>
               <Input
-                value={state.username}
+                value={state.name}
                 placeholder="Full name"
-                onChangeText={(value) => dispatch({ type: 'SET_USERNAME', payload: value })}
+                onChangeText={(value) => dispatch({ type: 'SET_NAME', payload: value })}
               />
             </Group>
             <Group error={state.errors['email']}>

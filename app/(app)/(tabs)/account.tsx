@@ -20,7 +20,7 @@ export default function Account() {
   return (
     <View style={styles.container}>
       <Group label="Profile">
-        <User header={user?.username ?? ''} description={user?.email ?? ''} />
+        <User header={user?.name ?? ''} description={user?.email ?? ''} />
       </Group>
       {version ? (
         <Group label="Version">
