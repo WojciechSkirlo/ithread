@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import { User as IUser } from '@ts/index';
 import UserService from '@services/User';
@@ -19,12 +19,29 @@ export default function Search() {
 
   const resultsCount = results.length;
 
+  const handleSendRequest = async (id: string) => {
+    console.log(id);
+    try {
+      await UserService.sendRequest(id);
+      // setIsLoading(true);
+    } catch (error) {
+      console.log(error);
+      // setIsLoading(false);
+    }
+  };
+
   const fetchData = async (query: string) => {
     try {
       setIsLoading(true);
+
+      if (!query.length) {
+        setResults([]);
+        return;
+      }
+
       const response = await UserService.search(query);
-      console.log('Respeonse', response);
-      setResults(response);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setResults(response || []);
     } catch (error) {
       setIsLoading(false);
     } finally {
@@ -33,9 +50,7 @@ export default function Search() {
   };
 
   useEffect(() => {
-    if (debouncedValue.length > 1) {
-      fetchData(debouncedValue).then();
-    }
+    fetchData(debouncedValue).then();
   }, [debouncedValue]);
 
   return (
@@ -44,24 +59,32 @@ export default function Search() {
         <Input value={value} placeholder="Search" onChangeText={(value) => setValue(value)} />
         <IconButton name="SearchNormal1" variant="Bold" color={Colors.White} size="large" />
       </View>
-      <ScrollView keyboardShouldPersistTaps="handled" style={styles.scrollContainer}>
-        {isLoading ? null : (
-          <>
-            {value && results.length ? (
+      {isLoading ? (
+        <View style={styles.center}>
+          <ActivityIndicator size={32} color={Colors.GrayDark} />
+        </View>
+      ) : (
+        <>
+          {debouncedValue && resultsCount ? (
+            <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContainer}>
               <Group label={`Results (${resultsCount})`}>
                 <View style={{ gap: 8 }}>
                   {results.map((item) => (
                     <User key={item._id} header={item.name} description={item.email}>
-                      <Button text="Add" size="small" />
+                      <Button text="Add" size="small" onPress={() => handleSendRequest(item._id)} />
                     </User>
                   ))}
                 </View>
               </Group>
-            ) : null}
-            {value && !results.length ? <NoFound /> : null}
-          </>
-        )}
-      </ScrollView>
+            </ScrollView>
+          ) : null}
+          {debouncedValue && !resultsCount ? (
+            <View style={styles.center}>
+              <NoFound />
+            </View>
+          ) : null}
+        </>
+      )}
     </View>
   );
 }
@@ -72,8 +95,13 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollContainer: {
-    flex: 1,
+    flexGrow: 1,
     padding: 16
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
   },
   inputContainer: {
     paddingHorizontal: 16,

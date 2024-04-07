@@ -5,5 +5,6 @@ const controller = require('../controllers/User.controller');
 
 router.get('/me', verifyToken, controller.me);
 router.get('/search', verifyToken, controller.search);
+router.post('/send-request', verifyToken, controller.sendRequest);
 
 module.exports = router;

@@ -14,7 +14,6 @@ export default function SystemNoFound() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 28,
     alignItems: 'center'
   },
   title: {

@@ -8,7 +8,10 @@ const userSchema = new mongoose.Schema({
     match:
       /[a-z0–9!#$%&’*+/=?^_`{|}~-]+(?:\.[a-z0–9!#$%&’*+/=?^_`{|}~-]+)*@(?:[a-z0–9](?:[a-z0–9-]*[a-z0–9])?\.)+[a-z0–9](?:[a-z0–9-]*[a-z0–9])?/
   },
-  password: String
+  password: String,
+  friendRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  sentRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
 module.exports = mongoose.model('User', userSchema);
