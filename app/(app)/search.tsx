@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
+import { useAuth } from '@context/auth';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import { User as IUser } from '@ts/index';
@@ -16,18 +17,15 @@ export default function Search() {
   const [value, setValue] = useState('');
   const [debouncedValue] = useDebounce(value, 500);
   const [results, setResults] = useState<IUser[]>([]);
+  const { user, sendRequest } = useAuth();
 
   const resultsCount = results.length;
 
-  const handleSendRequest = async (id: string) => {
-    console.log(id);
-    try {
-      await UserService.sendRequest(id);
-      // setIsLoading(true);
-    } catch (error) {
-      console.log(error);
-      // setIsLoading(false);
-    }
+  const handleClick = async (id: string) => {
+    if (isFriends(id)) return;
+    if (isSentRequest(id)) return;
+
+    sendRequest(id).then();
   };
 
   const fetchData = async (query: string) => {
@@ -41,12 +39,35 @@ export default function Search() {
 
       const response = await UserService.search(query);
       await new Promise((resolve) => setTimeout(resolve, 500));
-      setResults(response || []);
+      setResults(response.result || []);
     } catch (error) {
       setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const isFriends = (id: string) => {
+    if (user?.friends) {
+      return user.friends.some((friend_id) => friend_id == id);
+    }
+
+    return false;
+  };
+
+  const isSentRequest = (id: string) => {
+    if (user?.sentRequests) {
+      return user.sentRequests.some((request_id) => request_id == id);
+    }
+
+    return false;
+  };
+
+  const status = (id: string) => {
+    if (isFriends(id)) return 'Friend';
+    if (isSentRequest(id)) return 'Request sent';
+
+    return 'Add friend';
   };
 
   useEffect(() => {
@@ -71,7 +92,7 @@ export default function Search() {
                 <View style={{ gap: 8 }}>
                   {results.map((item) => (
                     <User key={item._id} header={item.name} description={item.email}>
-                      <Button text="Add" size="small" onPress={() => handleSendRequest(item._id)} />
+                      <Button text={status(item._id)} size="small" onPress={() => handleClick(item._id)} />
                     </User>
                   ))}
                 </View>

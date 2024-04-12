@@ -88,7 +88,7 @@ export default function Home() {
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={styles.container}>
-        <Group label="Friends">
+        <Group label="Conversations">
           <View style={{ gap: 8 }}>
             {DATA.map((item) => (
               <Link href="/(app)/chat" key={item.id} asChild>
