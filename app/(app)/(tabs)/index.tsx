@@ -1,104 +1,50 @@
 import { useEffect } from 'react';
-import { StyleSheet, View, Pressable, ScrollView } from 'react-native';
-import { Link } from 'expo-router';
+import { ScrollView, StyleSheet, View } from 'react-native';
+// import { Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
-import User from '@components/UI/User';
-import Group from '@components/UI/Group';
-
-const DATA = [
-  {
-    id: '1',
-    fullName: 'Shawn Samson',
-    message: 'Hi! Can you show your homework? asda sdoj asdij aosi djojasdij asiod'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '2',
-    fullName: 'Amanda',
-    message: 'Hello there'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '3',
-    fullName: 'John Doe',
-    message: 'Hello! how may I help you today?'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '4',
-    fullName: 'Tina',
-    message: 'What is the meaning of “Serendipity”?'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '5',
-    fullName: 'Shawn Samson',
-    message: 'Hi! Can you show your homework? asda sdoj asdij aosi djojasdij asiod'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '6',
-    fullName: 'Amanda',
-    message: 'Hello there'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '7',
-    fullName: 'John Doe',
-    message: 'Hello! how may I help you today?'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '8',
-    fullName: 'Tina',
-    message: 'What is the meaning of “Serendipity”?'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '9',
-    fullName: 'Shawn Samson',
-    message: 'Hi! Can you show your homework? asda sdoj asdij aosi djojasdij asiod'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '10',
-    fullName: 'Amanda',
-    message: 'Hello there'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '11',
-    fullName: 'John Doe',
-    message: 'Hello! how may I help you today?'
-    // avatar: require('@assets/img/avatar.png')
-  },
-  {
-    id: '12',
-    fullName: 'Tina',
-    message: 'What is the meaning of “Serendipity”?'
-    // avatar: require('@assets/img/avatar.png')
-  }
-];
+// import UserService from '@services/User';
+// import ConversationService from '@services/Conversation';
+// import UIUser from '@components/UI/User';
+import UIGroup from '@components/UI/Group';
 
 export default function Home() {
+  // const [setIsLoading] = useState(false);
+  // const [results, setResults] = useState<any[]>([]);
+
+  const fetchData = async () => {
+    // try {
+    //   setIsLoading(true);
+    //
+    //   const response = await ConversationService.getConversations();
+    //
+    //   console.log("response", response);
+    //   // await new Promise((resolve) => setTimeout(resolve, 500));
+    //   // setResults(response.result || []);
+    // } catch (error) {
+    //   setIsLoading(false);
+    // } finally {
+    //   setIsLoading(false);
+    // }
+  };
+
   useEffect(() => {
-    console.log('Home screen mounted');
+    fetchData().then();
   }, []);
 
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={styles.container}>
-        <Group label="Conversations">
+        <UIGroup label="Conversations">
           <View style={{ gap: 8 }}>
-            {DATA.map((item) => (
-              <Link href="/(app)/chat" key={item.id} asChild>
-                <Pressable>
-                  <User header={item.fullName} description={item.message} />
-                </Pressable>
-              </Link>
-            ))}
+            {/*{results.map((item) => (*/}
+            {/*  <Link href="/(app)/chat" key={item.id} asChild>*/}
+            {/*    <Pressable>*/}
+            {/*      <UIUser header={item.fullName} description={item.message} />*/}
+            {/*    </Pressable>*/}
+            {/*  </Link>*/}
+            {/*))}*/}
           </View>
-        </Group>
+        </UIGroup>
       </View>
     </ScrollView>
   );

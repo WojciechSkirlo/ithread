@@ -14,12 +14,13 @@ export interface User {
   friends: string[];
   friendRequests: string[];
   sentRequests: string[];
-  // friends: User[];
-  // friendRequests: RequestUser[];
-  // sentRequests: User[];
 }
 
-export interface RequestUser extends User {
+export interface Message {
+  _id: string;
+  text: string;
+  sender: any;
+  receiver: any;
   createdAt: string;
 }
 
@@ -31,10 +32,4 @@ export interface SignInForm {
 export interface SignUpForm extends SignInForm {
   name: string;
   confirm_password: string;
-}
-
-export interface Message {
-  id: string;
-  text: string;
-  sender: 'me' | 'friend';
 }

@@ -8,5 +8,6 @@ router.get('/search', verifyToken, controller.search);
 router.get('/requests', verifyToken, controller.requests);
 router.post('/send-request', verifyToken, controller.sendRequest);
 router.post('/accept-request', verifyToken, controller.acceptRequest);
+router.get('/friends', verifyToken, controller.friends);
 
 module.exports = router;

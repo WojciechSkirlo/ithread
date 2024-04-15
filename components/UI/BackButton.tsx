@@ -1,18 +1,21 @@
 import { Pressable } from 'react-native';
+import { router } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { ArrowLeft } from 'iconsax-react-native';
-import { Link } from 'expo-router';
 
 type UIBackButtonProps = {
   href?: string;
 };
 
 export default function UIBackButton({ href = '/' }: UIBackButtonProps) {
+  const onPress = () => {
+    const canGoBack = router.canGoBack();
+    canGoBack ? router.back() : router.push(href);
+  };
+
   return (
-    <Link href={href} asChild>
-      <Pressable>
-        <ArrowLeft color={Colors.GrayDark} variant="Linear" size={24} />
-      </Pressable>
-    </Link>
+    <Pressable onPress={onPress}>
+      <ArrowLeft color={Colors.GrayDark} variant="Linear" size={24} />
+    </Pressable>
   );
 }

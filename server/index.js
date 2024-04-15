@@ -22,19 +22,25 @@ router.use('/auth', authRouter);
 router.use('/user', userRouter);
 
 const server = http.createServer(app);
-const io = new Server(server, {
-  /* options */
-});
+const io = new Server(server);
 const PORT = process.env.PORT || 4000;
 const HOST_NAME = process.env.HOST_NAME;
 
-const { usersList } = require('./src/handlers/users')(io);
+const { sendMessage } = require('./src/handlers/users')(io);
 
 const onConnection = (socket) => {
-  socket.on('requests', usersList);
+  // socket.on('requests', usersList);
+  // socket.on('join', (userId) => {
+  //   socket.join(userId);
+  // });
+  console.log('onConnection', socket.id);
+  socket.on('sendMessage', sendMessage);
 };
 
 io.on('connection', onConnection);
+io.on('disconnect', () => {
+  console.log('disconnect');
+});
 
 server.listen(PORT, HOST_NAME, () => {
   console.log(`Server listening on http://${HOST_NAME}:${PORT}`);

@@ -81,8 +81,6 @@ async function sendRequest(req, res) {
     await user.save();
     await friend.save();
 
-    console.log('user', user);
-
     res.json({ message: 'Request sent', result: user });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -91,24 +89,24 @@ async function sendRequest(req, res) {
 
 async function acceptRequest(req, res) {
   const userId = req.userId;
-  const { friendId } = req.body;
+  const { requestId } = req.body;
 
   try {
     const user = await User.findById(userId);
-    const friend = await User.findById(friendId);
+    const friend = await User.findById(requestId);
 
     if (!user || !friend) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    if (!user.friendRequests.includes(friendId)) {
+    if (!user.friendRequests.includes(requestId)) {
       return res.status(400).json({ message: 'Invalid request' });
     }
 
-    user.friends.push(friendId);
+    user.friends.push(requestId);
     friend.friends.push(userId);
 
-    const userIndex = user.friendRequests.indexOf(friendId);
+    const userIndex = user.friendRequests.indexOf(requestId);
     user.friendRequests.splice(userIndex, 1);
 
     const friendIndex = friend.sentRequests.indexOf(userId);
@@ -123,10 +121,21 @@ async function acceptRequest(req, res) {
   }
 }
 
+const friends = async (req, res) => {
+  const query = req.query.q ?? '';
+  const userId = req.userId;
+
+  const user = await User.findById(userId).populate('friends', 'name email').lean();
+  const friends = user.friends ?? [];
+
+  res.json({ message: 'Fetched friends', result: friends });
+};
+
 module.exports = {
   me,
   search,
   requests,
   sendRequest,
-  acceptRequest
+  acceptRequest,
+  friends
 };

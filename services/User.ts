@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User, Resource } from '@ts/index';
+import { Resource, User } from '@ts/index';
 
 class UserService {
   public static async me(): Promise<Resource<User>> {
@@ -20,6 +20,14 @@ class UserService {
 
   public static async acceptRequest(requestId: string): Promise<Resource<User>> {
     return (await axios.post(`/api/user/accept-request`, { requestId })).data;
+  }
+
+  public static async friends(query: string): Promise<Resource<User[]>> {
+    return (await axios.get(`/api/user/friends?q=${query}`)).data;
+  }
+
+  public static async startConversation(friendId: string): Promise<Resource<User>> {
+    return (await axios.post(`/api/user/start-conversation`, { friendId })).data;
   }
 }
 

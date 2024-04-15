@@ -39,7 +39,6 @@ export function useAuth() {
 export function AuthProvider(props: PropsWithChildren) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-  // const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
   const signIn = async (form: SignInForm) => {
@@ -65,13 +64,11 @@ export function AuthProvider(props: PropsWithChildren) {
 
   const sendRequest = async (id: string) => {
     const response = await UserService.sendRequest(id);
-
     response?.result && setUser(response.result);
   };
 
   const acceptRequest = async (id: string) => {
     const response = await UserService.acceptRequest(id);
-
     response?.result && setUser(response.result);
   };
 
@@ -80,9 +77,6 @@ export function AuthProvider(props: PropsWithChildren) {
 
     const fetchUser = async () => {
       const response = await UserService.me();
-
-      console.log('response', response);
-
       response?.result && setUser(response.result);
     };
 

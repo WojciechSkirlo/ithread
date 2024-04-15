@@ -1,16 +1,16 @@
-import { ReactNode } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 
 type MessageProps = {
-  sender: 'me' | 'friend';
-  children: ReactNode;
+  me: boolean;
+  text: string;
+  date?: string;
 };
 
-export default function Message({ sender, children }: MessageProps) {
+export default function Message({ me, text }: MessageProps) {
   return (
-    <View style={[styles.container, sender === 'me' ? styles.right : styles.left]}>
-      <Text style={[styles.message, sender === 'me' ? styles.rightMessage : styles.leftMessage]}>{children}</Text>
+    <View style={[styles.container, me ? styles.right : styles.left]}>
+      <Text style={[styles.message, me ? styles.rightMessage : styles.leftMessage]}>{text}</Text>
     </View>
   );
 }
@@ -18,7 +18,7 @@ export default function Message({ sender, children }: MessageProps) {
 const styles = StyleSheet.create({
   container: {
     padding: 12,
-    minWidth: 120,
+    minWidth: 50,
     maxWidth: '80%'
   },
   left: {
