@@ -1,88 +1,77 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Redirect, useLocalSearchParams } from 'expo-router';
+import { useAuth } from '@context/auth';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Message as IMessage } from '@ts/index';
+import { Message } from '@ts/index';
+import socket from '../../socket';
 import { Colors } from '@helpers/colors';
-import Message from '@components/Message';
-import Input from '@components/UI/Input';
-import IconButton from '@components/UI/IconButton';
-
-const DATA: Array<IMessage> = [
-  {
-    id: '1',
-    text: 'Hello there',
-    sender: 'me'
-  },
-  {
-    id: '2',
-    text: 'Hello! how may I help you today?',
-    sender: 'friend'
-  },
-  {
-    id: '3',
-    text: 'What is the meaning of “Serendipity”?',
-    sender: 'me'
-  },
-  {
-    id: '4',
-    text: '"Serendipity" refers to the occurrence of fortunate or valuable discoveries or events by chance, which are not originally sought after or anticipated. It describes the experience of stumbling upon something valuable or finding something desirable while searching for something else entirely. It can refer to a combination of luck, intuition,',
-    sender: 'friend'
-  },
-  {
-    id: '5',
-    text: '"Serendipity" refers to the occurrence of fortunate or valuable discoveries or events by chance, which are not originally sought after or anticipated. It describes the experience of stumbling upon something valuable or finding something desirable while searching for something else entirely. It can refer to a combination of luck, intuition,',
-    sender: 'me'
-  },
-  {
-    id: '6',
-    text: 'What is the meaning of “Serendipity”?',
-    sender: 'me'
-  },
-  {
-    id: '7',
-    text: 'Hello! how may I help you today?',
-    sender: 'friend'
-  },
-  {
-    id: '8',
-    text: 'Hello there',
-    sender: 'me'
-  }
-];
+import UIMessage from '@components/Message';
+import UIInput from '@components/UI/Input';
+import UIIconButton from '@components/UI/IconButton';
 
 export default function Chat() {
+  const { conversationId } = useLocalSearchParams<{ conversationId: string }>();
+  const [value, setValue] = useState('');
+  const [messages, setMessages] = useState<Array<Message>>([]);
   const scrollViewRef = useRef<ScrollView>(null);
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Redirect href="/sign-in" />;
+  }
+
+  const sendMessage = async () => {
+    const data = { senderId: user._id, conversationId: '', text: value };
+
+    socket.emit('sendMessage', data);
+    setValue('');
+  };
 
   useEffect(() => {
-    if (scrollViewRef.current) {
-      scrollViewRef.current.scrollToEnd({ animated: true });
-    }
+    // console.log('conversationId', conversationId);
+    // if (scrollViewRef.current) {
+    //   scrollViewRef.current.scrollToEnd({ animated: true });
+    // }
+
+    socket.emit('joinConversation', conversationId);
+
+    socket.on('message', (message: Message) => {
+      setMessages([...messages, message]);
+      console.log('message :)', message);
+    });
+
+    socket.on('messages', (messages: Array<Message>) => {
+      setMessages(messages);
+    });
   }, []);
 
   return (
     <>
-      <ScrollView ref={scrollViewRef}>
+      <ScrollView style={styles.scrollContainer} ref={scrollViewRef}>
         <View style={styles.container}>
-          {DATA.map((message) => (
-            <Message sender={message.sender} key={message.id}>
-              {message.text}
-            </Message>
+          {messages.map((message) => (
+            <UIMessage key={message._id} me={message.sender === user._id} text={message.text} />
           ))}
         </View>
       </ScrollView>
       <View style={styles.inputContainer}>
-        <Input value="" />
-        <IconButton name="Send2" variant="Bold" color={Colors.White} size="large" />
+        <UIInput value={value} onChangeText={(value) => setValue(value)} />
+        <UIIconButton name="Send2" variant="Bold" color={Colors.White} size="large" onPress={() => sendMessage()} />
       </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    backgroundColor: Colors.White
+  },
   container: {
     padding: 16,
-    backgroundColor: Colors.White,
     flex: 1,
-    gap: 12
+    gap: 12,
+    justifyContent: 'flex-end'
   },
   inputContainer: {
     padding: 16,

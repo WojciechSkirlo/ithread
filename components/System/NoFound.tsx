@@ -7,7 +7,7 @@ export default function SystemNoFound() {
     <View style={styles.container}>
       <Icon name="SearchStatus" size={28} />
       <Text style={styles.title}>No results found</Text>
-      <Text style={styles.description}>Try again with different query</Text>
+      {/*<Text style={styles.description}>Try again with different query</Text>*/}
     </View>
   );
 }

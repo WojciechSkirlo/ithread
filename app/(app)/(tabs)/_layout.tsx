@@ -42,6 +42,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Home',
+          unmountOnBlur: true,
           headerRight: () => (
             <Link href="/search" asChild style={{ marginRight: 16 }}>
               <Pressable>
@@ -55,9 +56,9 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="news"
+        name="friends"
         options={{
-          title: 'News',
+          title: 'Friends',
           tabBarIcon: ({ color, focused }) => (
             <UIIcon name="Element4" color={color} variant={`${focused ? 'Bold' : 'Linear'}`} size={24} />
           )

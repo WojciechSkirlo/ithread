@@ -1,66 +1,33 @@
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { useAuth } from '@context/auth';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import { User as IUser } from '@ts/index';
 import UserService from '@services/User';
-import Input from '@components/UI/Input';
-import IconButton from '@components/UI/IconButton';
+import UIInput from '@components/UI/Input';
+import UIButton from '@components/UI/Button';
+import UIIconButton from '@components/UI/IconButton';
+import UIGroup from '@components/UI/Group';
 import User from '@components/UI/User';
-import Group from '@components/UI/Group';
-import Button from '@components/UI/Button';
 import NoFound from '@components/System/NoFound';
 
-export default function Search() {
-  const [isLoading, setIsLoading] = useState(false);
+export default function Friends() {
   const [value, setValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [debouncedValue] = useDebounce(value, 500);
   const [results, setResults] = useState<IUser[]>([]);
-  const { user, sendRequest } = useAuth();
 
   const resultsCount = results.length;
 
   const handleClick = async (id: string) => {
-    if (isFriends(id)) return;
-    if (isSentRequest(id)) return;
-
-    sendRequest(id).then();
-  };
-
-  const isFriends = (id: string) => {
-    if (user?.friends) {
-      return user.friends.some((friend_id) => friend_id == id);
-    }
-
-    return false;
-  };
-
-  const isSentRequest = (id: string) => {
-    if (user?.sentRequests) {
-      return user.sentRequests.some((request_id) => request_id == id);
-    }
-
-    return false;
-  };
-
-  const status = (id: string) => {
-    if (isFriends(id)) return 'Friend';
-    if (isSentRequest(id)) return 'Request sent';
-
-    return 'Add friend';
+    UserService.startConversation(id).then();
   };
 
   const fetchData = async (query: string) => {
     try {
       setIsLoading(true);
 
-      if (!query.length) {
-        setResults([]);
-        return;
-      }
-
-      const response = await UserService.search(query);
+      const response = await UserService.friends(query);
       await new Promise((resolve) => setTimeout(resolve, 400));
       setResults(response.result || []);
     } catch (error) {
@@ -77,8 +44,8 @@ export default function Search() {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <Input value={value} placeholder="Search" onChangeText={(value) => setValue(value)} />
-        <IconButton name="SearchNormal1" variant="Bold" color={Colors.White} size="large" />
+        <UIInput value={value} placeholder="Search" onChangeText={(value) => setValue(value)} />
+        <UIIconButton name="SearchNormal1" variant="Bold" color={Colors.White} size="large" />
       </View>
       {isLoading ? (
         <View style={styles.center}>
@@ -86,24 +53,23 @@ export default function Search() {
         </View>
       ) : (
         <>
-          {debouncedValue && resultsCount ? (
+          {resultsCount ? (
             <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContainer}>
-              <Group label={`Results (${resultsCount})`}>
+              <UIGroup label={`Results (${resultsCount})`}>
                 <View style={{ gap: 8 }}>
                   {results.map((item) => (
                     <User key={item._id} header={item.name} description={item.email}>
-                      <Button text={status(item._id)} size="small" onPress={() => handleClick(item._id)} />
+                      <UIButton text={'Start conversation'} size="small" onPress={() => handleClick(item._id)} />
                     </User>
                   ))}
                 </View>
-              </Group>
+              </UIGroup>
             </ScrollView>
-          ) : null}
-          {debouncedValue && !resultsCount ? (
+          ) : (
             <View style={styles.center}>
               <NoFound />
             </View>
-          ) : null}
+          )}
         </>
       )}
     </View>
