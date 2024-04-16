@@ -42,6 +42,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Home',
+          unmountOnBlur: true,
           headerRight: () => (
             <Link href="/search" asChild style={{ marginRight: 16 }}>
               <Pressable>

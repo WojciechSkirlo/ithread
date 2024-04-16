@@ -24,6 +24,11 @@ export interface Message {
   createdAt: string;
 }
 
+export interface Conversation {
+  _id: string;
+  participants: User[];
+}
+
 export interface SignInForm {
   email: string;
   password: string;

@@ -1,4 +1,5 @@
 const User = require('../models/User.model');
+const Conversation = require('../models/Conversation.model');
 
 async function me(req, res) {
   const user = await User.findOne({ _id: req.userId }).select({
@@ -131,11 +132,54 @@ const friends = async (req, res) => {
   res.json({ message: 'Fetched friends', result: friends });
 };
 
+const conversations = async (req, res) => {
+  const userId = req.userId;
+
+  try {
+    const conversations = await Conversation.find({ participants: userId })
+      .populate('participants', 'name email')
+      .lean();
+    console.log('convertions', conversations);
+    res.json({ message: 'Conversations fetched', result: conversations });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+const startConversation = async (req, res) => {
+  const userId = req.userId;
+  const { friendId } = req.body;
+
+  console.log('start Conversation');
+
+  try {
+    const user = await User.findById(userId);
+    const friend = await User.findById(friendId);
+
+    console.log('user', user);
+    console.log('rescipient', friend);
+
+    if (!user || !friend) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const conversation = await Conversation.create({
+      participants: [userId, friend]
+    });
+
+    res.json({ message: 'Conversation started', result: conversation });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   me,
   search,
   requests,
   sendRequest,
   acceptRequest,
-  friends
+  friends,
+  conversations,
+  startConversation
 };

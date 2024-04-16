@@ -10,7 +10,7 @@ import UIInput from '@components/UI/Input';
 import UIIconButton from '@components/UI/IconButton';
 
 export default function Chat() {
-  const { friendId } = useLocalSearchParams<{ friendId: string }>();
+  const { conversationId } = useLocalSearchParams<{ conversationId: string }>();
   const [value, setValue] = useState('');
   const [messages, setMessages] = useState<Array<Message>>([]);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -21,18 +21,19 @@ export default function Chat() {
   }
 
   const sendMessage = async () => {
-    const data = { senderId: user._id, receiverId: friendId, conversationId: '', text: value };
+    const data = { senderId: user._id, conversationId: '', text: value };
 
     socket.emit('sendMessage', data);
     setValue('');
   };
 
   useEffect(() => {
+    // console.log('conversationId', conversationId);
     // if (scrollViewRef.current) {
     //   scrollViewRef.current.scrollToEnd({ animated: true });
     // }
 
-    // socket.emit('join', { sender: user._id, receiver: friendId });
+    socket.emit('joinConversation', conversationId);
 
     socket.on('message', (message: Message) => {
       setMessages([...messages, message]);
@@ -70,7 +71,6 @@ const styles = StyleSheet.create({
     padding: 16,
     flex: 1,
     gap: 12,
-    // alignItems: 'flex-end'
     justifyContent: 'flex-end'
   },
   inputContainer: {

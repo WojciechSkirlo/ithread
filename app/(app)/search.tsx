@@ -61,7 +61,7 @@ export default function Search() {
       }
 
       const response = await UserService.search(query);
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 400));
       setResults(response.result || []);
     } catch (error) {
       setIsLoading(false);

@@ -26,6 +26,10 @@ class UserService {
     return (await axios.get(`/api/user/friends?q=${query}`)).data;
   }
 
+  public static async conversations(): Promise<Resource<any>> {
+    return (await axios.get('/api/user/conversations')).data;
+  }
+
   public static async startConversation(friendId: string): Promise<Resource<User>> {
     return (await axios.post(`/api/user/start-conversation`, { friendId })).data;
   }

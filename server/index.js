@@ -34,6 +34,11 @@ const onConnection = (socket) => {
   //   socket.join(userId);
   // });
   console.log('onConnection', socket.id);
+  socket.on('joinConversation', (conversationId) => {
+    socket.join(conversationId);
+
+    console.log(`User joined conversation ${conversationId}`);
+  });
   socket.on('sendMessage', sendMessage);
 };
 

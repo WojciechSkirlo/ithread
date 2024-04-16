@@ -21,7 +21,6 @@ export default function Friends() {
 
   const handleClick = async (id: string) => {
     UserService.startConversation(id).then();
-    console.log('id', id);
   };
 
   const fetchData = async (query: string) => {
@@ -29,7 +28,7 @@ export default function Friends() {
       setIsLoading(true);
 
       const response = await UserService.friends(query);
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 400));
       setResults(response.result || []);
     } catch (error) {
       setIsLoading(false);

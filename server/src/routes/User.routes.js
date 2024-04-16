@@ -9,5 +9,7 @@ router.get('/requests', verifyToken, controller.requests);
 router.post('/send-request', verifyToken, controller.sendRequest);
 router.post('/accept-request', verifyToken, controller.acceptRequest);
 router.get('/friends', verifyToken, controller.friends);
+router.get('/conversations', verifyToken, controller.conversations);
+router.post('/start-conversation', verifyToken, controller.startConversation);
 
 module.exports = router;
