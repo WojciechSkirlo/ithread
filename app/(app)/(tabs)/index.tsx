@@ -2,17 +2,25 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
-import { Conversation } from '@ts/index';
+import { Conversation, SimpleUser } from '@ts/index';
 import UserService from '@services/User';
 import UIUser from '@components/UI/User';
 import UIGroup from '@components/UI/Group';
 import NoFound from '@components/System/NoFound';
+import { useAuth } from '@context/auth';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<Conversation[]>([]);
+  const { user } = useAuth();
 
   const resultsCount = results.length;
+
+  const conversationUser = (participants: SimpleUser[]) => {
+    if (!user) return null;
+
+    return participants.find((item) => item._id !== user._id);
+  };
 
   const fetchData = async () => {
     try {
@@ -47,7 +55,10 @@ export default function Home() {
                   {results.map((item) => (
                     <Link href={`/(app)/chat?conversationId=${item._id}`} key={item._id} asChild>
                       <Pressable>
-                        <UIUser header={item.participants[1].name} description={item.participants[1].email} />
+                        <UIUser
+                          header={conversationUser(item.participants)?.name ?? '-'}
+                          description={conversationUser(item.participants)?.email ?? '-'}
+                        />
                       </Pressable>
                     </Link>
                   ))}

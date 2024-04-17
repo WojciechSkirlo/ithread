@@ -9,6 +9,7 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
+        unmountOnBlur: true,
         tabBarActiveTintColor: Colors.GrayDark,
         tabBarShowLabel: false,
         tabBarStyle: {
@@ -42,7 +43,6 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Home',
-          unmountOnBlur: true,
           headerRight: () => (
             <Link href="/search" asChild style={{ marginRight: 16 }}>
               <Pressable>

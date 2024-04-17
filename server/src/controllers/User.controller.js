@@ -139,7 +139,7 @@ const conversations = async (req, res) => {
     const conversations = await Conversation.find({ participants: userId })
       .populate('participants', 'name email')
       .lean();
-    console.log('convertions', conversations);
+
     res.json({ message: 'Conversations fetched', result: conversations });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });

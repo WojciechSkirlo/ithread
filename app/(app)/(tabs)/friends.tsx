@@ -28,7 +28,7 @@ export default function Friends() {
       setIsLoading(true);
 
       const response = await UserService.friends(query);
-      await new Promise((resolve) => setTimeout(resolve, 400));
+      await new Promise((resolve) => setTimeout(resolve, 300));
       setResults(response.result || []);
     } catch (error) {
       setIsLoading(false);

@@ -26,20 +26,10 @@ const io = new Server(server);
 const PORT = process.env.PORT || 4000;
 const HOST_NAME = process.env.HOST_NAME;
 
-const { sendMessage } = require('./src/handlers/users')(io);
+const registerChatHandlers = require('./src/handlers/chat');
 
 const onConnection = (socket) => {
-  // socket.on('requests', usersList);
-  // socket.on('join', (userId) => {
-  //   socket.join(userId);
-  // });
-  console.log('onConnection', socket.id);
-  socket.on('joinConversation', (conversationId) => {
-    socket.join(conversationId);
-
-    console.log(`User joined conversation ${conversationId}`);
-  });
-  socket.on('sendMessage', sendMessage);
+  registerChatHandlers(io, socket);
 };
 
 io.on('connection', onConnection);

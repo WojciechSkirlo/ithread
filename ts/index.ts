@@ -6,10 +6,13 @@ export interface Resource<T> extends Statement {
   result: T;
 }
 
-export interface User {
+export interface SimpleUser {
   _id: string;
   name: string;
   email: string;
+}
+
+export interface User extends SimpleUser {
   createdAt: string;
   friends: string[];
   friendRequests: string[];
@@ -19,14 +22,14 @@ export interface User {
 export interface Message {
   _id: string;
   text: string;
-  sender: any;
-  receiver: any;
-  createdAt: string;
+  senderId: string;
+  conversationId: string;
+  timestamp: string;
 }
 
 export interface Conversation {
   _id: string;
-  participants: User[];
+  participants: SimpleUser[];
 }
 
 export interface SignInForm {
