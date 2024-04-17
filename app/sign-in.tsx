@@ -5,9 +5,9 @@ import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { Link, Redirect, useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { SignInForm } from '@ts/index';
-import Input from '@components/UI/Input';
-import Button from '@components/UI/Button';
-import Group from '@components/UI/Group';
+import UIInput from '@components/UI/Input';
+import UIButton from '@components/UI/Button';
+import UIGroup from '@components/UI/Group';
 
 interface FormState extends SignInForm {
   errors: Record<string, string>;
@@ -92,25 +92,25 @@ export default function SignIn() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <Group error={state.errors['email']}>
-              <Input
+            <UIGroup error={state.errors['email']}>
+              <UIInput
                 value={state.email}
                 placeholder="Email"
                 onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
               />
-            </Group>
-            <Group error={state.errors['password']}>
-              <Input
+            </UIGroup>
+            <UIGroup error={state.errors['password']}>
+              <UIInput
                 value={state.password}
                 type="password"
                 placeholder="Password"
                 onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
               />
-            </Group>
+            </UIGroup>
           </View>
 
           <View style={styles.buttonLinkContainer}>
-            <Button text="Sign In" onPress={handleSubmit} />
+            <UIButton text="Sign In" onPress={handleSubmit} />
             <View style={styles.linkContainer}>
               <Text>Not a member yet?</Text>
               <Link style={styles.link} href="/sign-up">

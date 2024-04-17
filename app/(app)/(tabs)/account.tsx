@@ -1,11 +1,11 @@
 import { Link, useRouter } from 'expo-router';
 import { useAuth } from '@context/auth';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import Constants from 'expo-constants';
-import Group from '@components/UI/Group';
-import User from '@components/UI/User';
-import Button from '@components/UI/Button';
+import UIGroup from '@components/UI/Group';
+import UIUser from '@components/UI/User';
+import UIButton from '@components/UI/Button';
 
 export default function Account() {
   const { signOut, user } = useAuth();
@@ -19,15 +19,15 @@ export default function Account() {
 
   return (
     <View style={styles.container}>
-      <Group label="Profile">
-        <User header={user?.name ?? ''} description={user?.email ?? ''} />
-      </Group>
+      <UIGroup label="Profile">
+        <UIUser header={user?.name ?? ''} description={user?.email ?? ''} />
+      </UIGroup>
       {version ? (
-        <Group label="Version">
+        <UIGroup label="Version">
           <Text style={styles.version}>{version}</Text>
-        </Group>
+        </UIGroup>
       ) : null}
-      <Button text="Sign Out" onPress={handleSignOut} />
+      <UIButton text="Sign Out" onPress={handleSignOut} />
       <Link href="/sign-in">Test</Link>
     </View>
   );

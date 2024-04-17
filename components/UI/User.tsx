@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '@helpers/colors';
-import { User } from 'iconsax-react-native';
+import UIIcon from '@components/UI/Icon';
 
 type UIUserProps = {
   header: string;
@@ -13,7 +13,7 @@ export default function UIUser({ header, description, children }: UIUserProps) {
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
-        <User color={Colors.Black} variant="Linear" size={24} />
+        <UIIcon name="User" color={Colors.Black} variant="Linear" size={24} />
       </View>
       <View style={styles.dataContainer}>
         <Text style={styles.header}>{header}</Text>

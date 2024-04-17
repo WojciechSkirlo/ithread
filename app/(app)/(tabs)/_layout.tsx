@@ -1,9 +1,27 @@
-import React from 'react';
 import { Pressable } from 'react-native';
 import { Link, Tabs } from 'expo-router';
-import { AddSquare, NotificationStatus } from 'iconsax-react-native';
 import { Colors } from '@helpers/colors';
 import UIIcon from '@components/UI/Icon';
+
+function HeaderLeftButton() {
+  return (
+    <Link href="/requests" asChild style={{ marginLeft: 16 }}>
+      <Pressable>
+        <UIIcon name="NotificationStatus" color={Colors.GrayDark} variant="Outline" size={24} />
+      </Pressable>
+    </Link>
+  );
+}
+
+function HeaderRightButton() {
+  return (
+    <Link href="/search" asChild style={{ marginRight: 16 }}>
+      <Pressable>
+        <UIIcon name="AddSquare" color={Colors.GrayDark} variant="Outline" size={24} />
+      </Pressable>
+    </Link>
+  );
+}
 
 export default function TabsLayout() {
   return (
@@ -30,26 +48,14 @@ export default function TabsLayout() {
         },
         headerTitleAlign: 'center',
         headerTintColor: Colors.GrayDark,
-        headerLeft: () => (
-          <Link href="/requests" asChild style={{ marginLeft: 16 }}>
-            <Pressable>
-              <NotificationStatus color={Colors.GrayDark} variant="Outline" size={24} />
-            </Pressable>
-          </Link>
-        )
+        headerLeft: () => <HeaderLeftButton />
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          headerRight: () => (
-            <Link href="/search" asChild style={{ marginRight: 16 }}>
-              <Pressable>
-                <AddSquare color={Colors.GrayDark} variant="Outline" size={24} />
-              </Pressable>
-            </Link>
-          ),
+          headerRight: () => <HeaderRightButton />,
           tabBarIcon: ({ color, focused }) => (
             <UIIcon name="Messages1" color={color} variant={`${focused ? 'Bold' : 'Linear'}`} size={24} />
           )
@@ -59,6 +65,7 @@ export default function TabsLayout() {
         name="friends"
         options={{
           title: 'Friends',
+          headerRight: () => <HeaderRightButton />,
           tabBarIcon: ({ color, focused }) => (
             <UIIcon name="Element4" color={color} variant={`${focused ? 'Bold' : 'Linear'}`} size={24} />
           )

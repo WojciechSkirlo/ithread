@@ -1,7 +1,7 @@
 import { Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { Colors } from '@helpers/colors';
-import { ArrowLeft } from 'iconsax-react-native';
+import UIIcon from '@components/UI/Icon';
 
 type UIBackButtonProps = {
   href?: string;
@@ -15,7 +15,7 @@ export default function UIBackButton({ href = '/' }: UIBackButtonProps) {
 
   return (
     <Pressable onPress={onPress}>
-      <ArrowLeft color={Colors.GrayDark} variant="Linear" size={24} />
+      <UIIcon name="ArrowLeft" color={Colors.GrayDark} variant="Linear" size={24} />
     </Pressable>
   );
 }

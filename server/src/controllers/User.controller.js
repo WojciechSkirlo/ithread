@@ -107,11 +107,15 @@ async function acceptRequest(req, res) {
     user.friends.push(requestId);
     friend.friends.push(userId);
 
-    const userIndex = user.friendRequests.indexOf(requestId);
-    user.friendRequests.splice(userIndex, 1);
+    const userFriendRequestsIndex = user.friendRequests.indexOf(requestId);
+    user.friendRequests.splice(userFriendRequestsIndex, 1);
+    const friendFriendRequestsIndex = friend.friendRequests.indexOf(userId);
+    friendFriendRequestsIndex != null && friend.friendRequests.splice(friendFriendRequestsIndex, 1);
 
-    const friendIndex = friend.sentRequests.indexOf(userId);
-    friend.sentRequests.splice(friendIndex, 1);
+    const friendSentRequestsIndex = friend.sentRequests.indexOf(userId);
+    friend.sentRequests.splice(friendSentRequestsIndex, 1);
+    const userSentRequestsIndex = user.sentRequests.indexOf(requestId);
+    userSentRequestsIndex != null && user.sentRequests.splice(userSentRequestsIndex, 1);
 
     await user.save();
     await friend.save();
@@ -123,11 +127,13 @@ async function acceptRequest(req, res) {
 }
 
 const friends = async (req, res) => {
-  const query = req.query.q ?? '';
+  const query = (req.query.q ?? '').trim().toLowerCase();
   const userId = req.userId;
 
   const user = await User.findById(userId).populate('friends', 'name email').lean();
-  const friends = user.friends ?? [];
+  const friends = user.friends.filter(
+    (friend) => friend.name.toLowerCase().includes(query) || friend.email.toLowerCase().includes(query)
+  );
 
   res.json({ message: 'Fetched friends', result: friends });
 };
@@ -150,17 +156,18 @@ const startConversation = async (req, res) => {
   const userId = req.userId;
   const { friendId } = req.body;
 
-  console.log('start Conversation');
-
   try {
     const user = await User.findById(userId);
     const friend = await User.findById(friendId);
 
-    console.log('user', user);
-    console.log('rescipient', friend);
-
     if (!user || !friend) {
       return res.status(404).json({ message: 'User not found' });
+    }
+
+    const existingConversation = await Conversation.findOne({ participants: { $all: [userId, friendId] } });
+
+    if (existingConversation) {
+      return res.json({ message: 'Conversation started', result: existingConversation });
     }
 
     const conversation = await Conversation.create({

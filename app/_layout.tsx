@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AuthProvider } from '@context/auth';
 import { Text } from 'react-native';
 import { Slot } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import axios from 'axios';
+import { AuthProvider } from '@context/auth';
+import * as SplashScreen from 'expo-splash-screen';
 
 SplashScreen.preventAutoHideAsync();
 

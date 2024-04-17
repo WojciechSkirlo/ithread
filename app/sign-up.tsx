@@ -1,13 +1,13 @@
 import { useReducer } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import { useAuth } from '@context/auth';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAuth } from '@context/auth';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { SignUpForm } from '@ts/index';
-import Input from '@components/UI/Input';
-import Button from '@components/UI/Button';
-import Group from '@components/UI/Group';
+import UIInput from '@components/UI/Input';
+import UIButton from '@components/UI/Button';
+import UIGroup from '@components/UI/Group';
 
 interface FormState extends SignUpForm {
   errors: Record<string, string>;
@@ -99,40 +99,40 @@ export default function SignUp() {
         </View>
         <View style={styles.inputsButtonContainer}>
           <View style={styles.inputsContainer}>
-            <Group error={state.errors['name']}>
-              <Input
+            <UIGroup error={state.errors['name']}>
+              <UIInput
                 value={state.name}
                 placeholder="Full name"
                 onChangeText={(value) => dispatch({ type: 'SET_NAME', payload: value })}
               />
-            </Group>
-            <Group error={state.errors['email']}>
-              <Input
+            </UIGroup>
+            <UIGroup error={state.errors['email']}>
+              <UIInput
                 value={state.email}
                 placeholder="Email"
                 onChangeText={(value) => dispatch({ type: 'SET_EMAIL', payload: value })}
               />
-            </Group>
-            <Group error={state.errors['password']}>
-              <Input
+            </UIGroup>
+            <UIGroup error={state.errors['password']}>
+              <UIInput
                 value={state.password}
                 type="password"
                 placeholder="Password"
                 onChangeText={(value) => dispatch({ type: 'SET_PASSWORD', payload: value })}
               />
-            </Group>
-            <Group error={state.errors['confirm_password']}>
-              <Input
+            </UIGroup>
+            <UIGroup error={state.errors['confirm_password']}>
+              <UIInput
                 value={state.confirm_password}
                 type="password"
                 placeholder="Confirm Password"
                 onChangeText={(value) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: value })}
               />
-            </Group>
+            </UIGroup>
           </View>
 
           <View style={styles.buttonLinkContainer}>
-            <Button text="Sign Up" onPress={handleSubmit} />
+            <UIButton text="Sign Up" onPress={handleSubmit} />
             <View style={styles.linkContainer}>
               <Text>Already have an account?</Text>
               <Link style={styles.link} href="/sign-in">

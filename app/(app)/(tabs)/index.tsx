@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '@context/auth';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
@@ -6,8 +7,7 @@ import { Conversation, SimpleUser } from '@ts/index';
 import UserService from '@services/User';
 import UIUser from '@components/UI/User';
 import UIGroup from '@components/UI/Group';
-import NoFound from '@components/System/NoFound';
-import { useAuth } from '@context/auth';
+import SystemNoFound from '@components/System/NoFound';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +67,7 @@ export default function Home() {
             </ScrollView>
           ) : (
             <View style={styles.center}>
-              <NoFound />
+              <SystemNoFound text="No conversations started" />
             </View>
           )}
         </>

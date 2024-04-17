@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
+import { useRouter } from 'expo-router';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import { User as IUser } from '@ts/index';
@@ -8,19 +9,27 @@ import UIInput from '@components/UI/Input';
 import UIButton from '@components/UI/Button';
 import UIIconButton from '@components/UI/IconButton';
 import UIGroup from '@components/UI/Group';
-import User from '@components/UI/User';
-import NoFound from '@components/System/NoFound';
+import UIUser from '@components/UI/User';
+import SystemNoFound from '@components/System/NoFound';
 
 export default function Friends() {
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedValue] = useDebounce(value, 500);
   const [results, setResults] = useState<IUser[]>([]);
+  const router = useRouter();
 
   const resultsCount = results.length;
 
   const handleClick = async (id: string) => {
-    UserService.startConversation(id).then();
+    try {
+      const response = await UserService.startConversation(id);
+      const conversationId = response.result._id;
+
+      conversationId && router.push(`/(app)/chat?conversationId=${conversationId}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchData = async (query: string) => {
@@ -58,16 +67,16 @@ export default function Friends() {
               <UIGroup label={`Results (${resultsCount})`}>
                 <View style={{ gap: 8 }}>
                   {results.map((item) => (
-                    <User key={item._id} header={item.name} description={item.email}>
-                      <UIButton text={'Start conversation'} size="small" onPress={() => handleClick(item._id)} />
-                    </User>
+                    <UIUser key={item._id} header={item.name} description={item.email}>
+                      <UIButton text="Chat" size="small" onPress={() => handleClick(item._id)} />
+                    </UIUser>
                   ))}
                 </View>
               </UIGroup>
             </ScrollView>
           ) : (
             <View style={styles.center}>
-              <NoFound />
+              <SystemNoFound text="No friends found" description="Click '+' to add some" />
             </View>
           )}
         </>

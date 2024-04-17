@@ -1,8 +1,8 @@
 import { useAuth } from '@context/auth';
 import { Redirect, Stack } from 'expo-router';
-import { Colors } from '@helpers/colors';
-import BackButton from '@components/UI/BackButton';
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
+import { Colors } from '@helpers/colors';
+import UIBackButton from '@components/UI/BackButton';
 
 export default function AppLayout() {
   const { isAuthenticated } = useAuth();
@@ -21,7 +21,7 @@ export default function AppLayout() {
       backgroundColor: Colors.White
     },
     headerShadowVisible: false,
-    headerLeft: ({ canGoBack }) => canGoBack && <BackButton />
+    headerLeft: ({ canGoBack }) => canGoBack && <UIBackButton />
   };
 
   return (

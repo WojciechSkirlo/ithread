@@ -5,12 +5,12 @@ import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import { User as IUser } from '@ts/index';
 import UserService from '@services/User';
-import Input from '@components/UI/Input';
-import IconButton from '@components/UI/IconButton';
-import User from '@components/UI/User';
-import Group from '@components/UI/Group';
-import Button from '@components/UI/Button';
-import NoFound from '@components/System/NoFound';
+import UIInput from '@components/UI/Input';
+import UIIconButton from '@components/UI/IconButton';
+import UIUser from '@components/UI/User';
+import UIGroup from '@components/UI/Group';
+import UIButton from '@components/UI/Button';
+import SystemNoFound from '@components/System/NoFound';
 
 export default function Search() {
   const [isLoading, setIsLoading] = useState(false);
@@ -77,8 +77,8 @@ export default function Search() {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <Input value={value} placeholder="Search" onChangeText={(value) => setValue(value)} />
-        <IconButton name="SearchNormal1" variant="Bold" color={Colors.White} size="large" />
+        <UIInput value={value} placeholder="Search" onChangeText={(value) => setValue(value)} />
+        <UIIconButton name="SearchNormal1" variant="Bold" color={Colors.White} size="large" />
       </View>
       {isLoading ? (
         <View style={styles.center}>
@@ -88,20 +88,20 @@ export default function Search() {
         <>
           {debouncedValue && resultsCount ? (
             <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContainer}>
-              <Group label={`Results (${resultsCount})`}>
+              <UIGroup label={`Results (${resultsCount})`}>
                 <View style={{ gap: 8 }}>
                   {results.map((item) => (
-                    <User key={item._id} header={item.name} description={item.email}>
-                      <Button text={status(item._id)} size="small" onPress={() => handleClick(item._id)} />
-                    </User>
+                    <UIUser key={item._id} header={item.name} description={item.email}>
+                      <UIButton text={status(item._id)} size="small" onPress={() => handleClick(item._id)} />
+                    </UIUser>
                   ))}
                 </View>
-              </Group>
+              </UIGroup>
             </ScrollView>
           ) : null}
           {debouncedValue && !resultsCount ? (
             <View style={styles.center}>
-              <NoFound />
+              <SystemNoFound />
             </View>
           ) : null}
         </>

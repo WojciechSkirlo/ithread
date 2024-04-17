@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@context/auth';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
-import { User as IUser } from '@ts/index';
+import { User } from '@ts/index';
 import UserService from '@services/User';
-import Group from '@components/UI/Group';
-import User from '@components/UI/User';
-import Button from '@components/UI/Button';
+import UIGroup from '@components/UI/Group';
+import UIUser from '@components/UI/User';
+import UIButton from '@components/UI/Button';
+import SystemNoFound from '@components/System/NoFound';
 
 export default function Requests() {
-  const [requests, setRequests] = useState<IUser[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [requests, setRequests] = useState<User[]>([]);
   const { acceptRequest } = useAuth();
 
   const requestCount = requests.length;
@@ -21,10 +23,15 @@ export default function Requests() {
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
+
       const response = await UserService.requests();
+      await new Promise((resolve) => setTimeout(resolve, 300));
       setRequests(response.result || []);
     } catch (error) {
-      console.log('errror');
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -33,28 +40,50 @@ export default function Requests() {
   }, []);
 
   return (
-    <ScrollView style={styles.scrollContainer}>
-      <View style={styles.container}>
-        <Group label={`Your friend request (${requestCount})`}>
-          <View style={{ gap: 8 }}>
-            {requests.map((item) => (
-              <User key={item._id} header={item.name} description={item.email}>
-                <Button text="Accept" size="small" onPress={() => handleClick(item._id)} />
-              </User>
-            ))}
-          </View>
-        </Group>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      {isLoading ? (
+        <View style={styles.center}>
+          <ActivityIndicator size={32} color={Colors.GrayDark} />
+        </View>
+      ) : (
+        <>
+          {requestCount ? (
+            <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContainer}>
+              <UIGroup label={`Your friend request (${requestCount})`}>
+                <View style={{ gap: 8 }}>
+                  {requests.map((item) => (
+                    <UIUser key={item._id} header={item.name} description={item.email}>
+                      <UIButton text="Accept" size="small" onPress={() => handleClick(item._id)} />
+                    </UIUser>
+                  ))}
+                </View>
+              </UIGroup>
+            </ScrollView>
+          ) : (
+            <View style={styles.center}>
+              <SystemNoFound text="No friend requests found" />
+            </View>
+          )}
+        </>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    backgroundColor: Colors.White
+    flexGrow: 1
   },
   container: {
+    backgroundColor: Colors.White,
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: 16,
     paddingTop: 8
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
   }
 });

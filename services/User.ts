@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Resource, User } from '@ts/index';
+import { Conversation, Resource, User } from '@ts/index';
 
 class UserService {
   public static async me(): Promise<Resource<User>> {
@@ -30,7 +30,7 @@ class UserService {
     return (await axios.get('/api/user/conversations')).data;
   }
 
-  public static async startConversation(friendId: string): Promise<Resource<User>> {
+  public static async startConversation(friendId: string): Promise<Resource<Conversation>> {
     return (await axios.post(`/api/user/start-conversation`, { friendId })).data;
   }
 }

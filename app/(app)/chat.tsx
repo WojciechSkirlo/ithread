@@ -67,7 +67,7 @@ export default function Chat() {
         </View>
       </ScrollView>
       <View style={styles.inputContainer}>
-        <UIInput value={value} onChangeText={(value) => setValue(value)} />
+        <UIInput value={value} multiline onChangeText={(value) => setValue(value)} />
         <UIIconButton name="Send2" variant="Bold" color={Colors.White} size="large" onPress={() => sendMessage()} />
       </View>
     </>
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     backgroundColor: Colors.White,
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 12
   }
 });
