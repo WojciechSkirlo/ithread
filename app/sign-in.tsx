@@ -1,7 +1,7 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import { useAuth } from '@context/auth';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Link, Redirect, useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { SignInForm } from '@ts/index';
@@ -38,7 +38,8 @@ function reducer(state: FormState, action: FormAction) {
 }
 
 export default function SignIn() {
-  const [state, dispatch] = useReducer(reducer, { email: 'admin@test.pl', password: '', errors: {} });
+  const [state, dispatch] = useReducer(reducer, { email: '', password: '', errors: {} });
+  const [isLoading, setIsLoading] = useState(false);
   const { signIn, isAuthenticated } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -50,8 +51,8 @@ export default function SignIn() {
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
-    if (!state.email) errors.email = 'Email is required';
     if (!/\S+@\S+\.\S+/.test(state.email)) errors.email = 'Email is invalid';
+    if (!state.email) errors.email = 'Email is required';
     if (!state.password) errors.password = 'Password is required';
 
     dispatch({ type: 'SET_ERRORS', payload: errors });
@@ -62,8 +63,10 @@ export default function SignIn() {
   const handleSubmit = async () => {
     try {
       if (!validateForm()) return;
+      setIsLoading(true);
 
       await signIn({ email: state.email, password: state.password });
+      await new Promise((resolve) => setTimeout(resolve, 200));
       router.push('/');
     } catch (error: any) {
       const status = error?.response?.status;
@@ -72,6 +75,8 @@ export default function SignIn() {
         const errors = error?.response?.data?.errors ?? {};
         dispatch({ type: 'SET_ERRORS', payload: errors });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -110,14 +115,11 @@ export default function SignIn() {
           </View>
 
           <View style={styles.buttonLinkContainer}>
-            <UIButton text="Sign In" onPress={handleSubmit} />
+            <UIButton text="Sign In" loading={isLoading} onPress={handleSubmit} />
             <View style={styles.linkContainer}>
               <Text>Not a member yet?</Text>
               <Link style={styles.link} href="/sign-up">
                 Sign Up
-              </Link>
-              <Link style={styles.link} href="/">
-                Testasdasd
               </Link>
             </View>
           </View>
@@ -141,8 +143,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    height: 52,
-    width: 52,
+    height: 72,
+    width: 72,
     marginTop: 32
   },
   logoText: {

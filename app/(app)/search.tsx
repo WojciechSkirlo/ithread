@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { useAuth } from '@context/auth';
-import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import { Animated, ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import { User as IUser } from '@ts/index';
 import UserService from '@services/User';
@@ -10,6 +10,7 @@ import UIIconButton from '@components/UI/IconButton';
 import UIUser from '@components/UI/User';
 import UIGroup from '@components/UI/Group';
 import UIButton from '@components/UI/Button';
+import UILoader from '@components/UI/Loader';
 import SystemNoFound from '@components/System/NoFound';
 
 export default function Search() {
@@ -17,6 +18,7 @@ export default function Search() {
   const [value, setValue] = useState('');
   const [debouncedValue] = useDebounce(value, 500);
   const [results, setResults] = useState<IUser[]>([]);
+  const [opacity] = useState(new Animated.Value(0));
   const { user, sendRequest } = useAuth();
 
   const resultsCount = results.length;
@@ -61,12 +63,18 @@ export default function Search() {
       }
 
       const response = await UserService.search(query);
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await new Promise((resolve) => setTimeout(resolve, 200));
       setResults(response.result || []);
     } catch (error) {
       setIsLoading(false);
     } finally {
       setIsLoading(false);
+      opacity.setValue(0);
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
     }
   };
 
@@ -82,10 +90,10 @@ export default function Search() {
       </View>
       {isLoading ? (
         <View style={styles.center}>
-          <ActivityIndicator size={32} color={Colors.GrayDark} />
+          <UILoader />
         </View>
       ) : (
-        <>
+        <Animated.View style={{ opacity, flex: 1 }}>
           {debouncedValue && resultsCount ? (
             <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContainer}>
               <UIGroup label={`Results (${resultsCount})`}>
@@ -104,7 +112,7 @@ export default function Search() {
               <SystemNoFound />
             </View>
           ) : null}
-        </>
+        </Animated.View>
       )}
     </View>
   );

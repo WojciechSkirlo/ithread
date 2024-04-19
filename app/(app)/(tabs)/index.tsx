@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@context/auth';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Animated, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { Conversation, SimpleUser } from '@ts/index';
 import UserService from '@services/User';
 import UIUser from '@components/UI/User';
 import UIGroup from '@components/UI/Group';
+import UILoader from '@components/UI/Loader';
 import SystemNoFound from '@components/System/NoFound';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<Conversation[]>([]);
+  const [opacity] = useState(new Animated.Value(0));
   const { user } = useAuth();
 
   const resultsCount = results.length;
@@ -27,12 +29,18 @@ export default function Home() {
       setIsLoading(true);
 
       const response = await UserService.conversations();
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await new Promise((resolve) => setTimeout(resolve, 200));
       setResults(response.result || []);
     } catch (error) {
       setIsLoading(false);
     } finally {
       setIsLoading(false);
+      opacity.setValue(0);
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
     }
   };
 
@@ -44,10 +52,10 @@ export default function Home() {
     <View style={styles.container}>
       {isLoading ? (
         <View style={styles.center}>
-          <ActivityIndicator size={32} color={Colors.GrayDark} />
+          <UILoader />
         </View>
       ) : (
-        <>
+        <Animated.View style={{ opacity, flex: 1 }}>
           {resultsCount ? (
             <ScrollView style={styles.scrollContainer}>
               <UIGroup label="Conversations">
@@ -70,7 +78,7 @@ export default function Home() {
               <SystemNoFound text="No conversations started" />
             </View>
           )}
-        </>
+        </Animated.View>
       )}
     </View>
   );
