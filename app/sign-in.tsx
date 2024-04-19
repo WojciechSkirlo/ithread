@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 import { useAuth } from '@context/auth';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Link, Redirect, useRouter } from 'expo-router';
 import { Colors } from '@helpers/colors';
 import { SignInForm } from '@ts/index';
@@ -38,7 +38,7 @@ function reducer(state: FormState, action: FormAction) {
 }
 
 export default function SignIn() {
-  const [state, dispatch] = useReducer(reducer, { email: 'admin@test.pl', password: '', errors: {} });
+  const [state, dispatch] = useReducer(reducer, { email: '', password: '', errors: {} });
   const { signIn, isAuthenticated } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -50,8 +50,8 @@ export default function SignIn() {
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
-    if (!state.email) errors.email = 'Email is required';
     if (!/\S+@\S+\.\S+/.test(state.email)) errors.email = 'Email is invalid';
+    if (!state.email) errors.email = 'Email is required';
     if (!state.password) errors.password = 'Password is required';
 
     dispatch({ type: 'SET_ERRORS', payload: errors });
@@ -116,9 +116,6 @@ export default function SignIn() {
               <Link style={styles.link} href="/sign-up">
                 Sign Up
               </Link>
-              <Link style={styles.link} href="/">
-                Testasdasd
-              </Link>
             </View>
           </View>
         </View>
@@ -141,8 +138,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    height: 52,
-    width: 52,
+    height: 72,
+    width: 72,
     marginTop: 32
   },
   logoText: {

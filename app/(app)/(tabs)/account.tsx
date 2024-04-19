@@ -1,4 +1,4 @@
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useAuth } from '@context/auth';
 import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '@helpers/colors';
@@ -28,7 +28,6 @@ export default function Account() {
         </UIGroup>
       ) : null}
       <UIButton text="Sign Out" onPress={handleSignOut} />
-      <Link href="/sign-in">Test</Link>
     </View>
   );
 }

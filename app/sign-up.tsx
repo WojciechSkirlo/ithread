@@ -57,12 +57,12 @@ export default function SignUp() {
     const errors: Record<string, string> = {};
 
     if (!state.name) errors.name = 'Name is required';
-    if (!state.email) errors.email = 'Email is required';
     if (!/\S+@\S+\.\S+/.test(state.email)) errors.email = 'Email is invalid';
-    if (!state.password) errors.password = 'Password is required';
+    if (!state.email) errors.email = 'Email is required';
     if (state.password.length < 8) errors.password = 'Password should be at least 8 characters';
-    if (!state.confirm_password) errors.confirm_password = 'Confirm Password is required';
+    if (!state.password) errors.password = 'Password is required';
     if (state.password !== state.confirm_password) errors.confirm_password = 'Passwords do not match';
+    if (!state.confirm_password) errors.confirm_password = 'Confirm Password is required';
 
     dispatch({ type: 'SET_ERRORS', payload: errors });
 
@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    height: 52,
-    width: 52,
+    height: 72,
+    width: 72,
     marginTop: 32
   },
   logoText: {

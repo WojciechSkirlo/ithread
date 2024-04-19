@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@context/auth';
-import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import { Animated, ScrollView, StyleSheet, View } from 'react-native';
 import { Colors } from '@helpers/colors';
 import { User } from '@ts/index';
 import UserService from '@services/User';
 import UIGroup from '@components/UI/Group';
 import UIUser from '@components/UI/User';
 import UIButton from '@components/UI/Button';
+import UILoader from '@components/UI/Loader';
 import SystemNoFound from '@components/System/NoFound';
 
 export default function Requests() {
   const [isLoading, setIsLoading] = useState(false);
   const [requests, setRequests] = useState<User[]>([]);
+  const [opacity] = useState(new Animated.Value(0));
   const { acceptRequest } = useAuth();
 
   const requestCount = requests.length;
@@ -26,12 +28,17 @@ export default function Requests() {
       setIsLoading(true);
 
       const response = await UserService.requests();
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await new Promise((resolve) => setTimeout(resolve, 200));
       setRequests(response.result || []);
     } catch (error) {
       setIsLoading(false);
     } finally {
       setIsLoading(false);
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
     }
   };
 
@@ -43,10 +50,10 @@ export default function Requests() {
     <View style={styles.container}>
       {isLoading ? (
         <View style={styles.center}>
-          <ActivityIndicator size={32} color={Colors.GrayDark} />
+          <UILoader />
         </View>
       ) : (
-        <>
+        <Animated.View style={{ opacity, flex: 1 }}>
           {requestCount ? (
             <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContainer}>
               <UIGroup label={`Your friend request (${requestCount})`}>
@@ -64,7 +71,7 @@ export default function Requests() {
               <SystemNoFound text="No friend requests found" />
             </View>
           )}
-        </>
+        </Animated.View>
       )}
     </View>
   );

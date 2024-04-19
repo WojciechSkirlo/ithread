@@ -1,4 +1,5 @@
 import axios from 'axios';
+import socket from '../socket';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { SignInForm, SignUpForm, User } from '@ts/index';
 import AuthService from '@services/Auth';
@@ -74,6 +75,7 @@ export function AuthProvider(props: PropsWithChildren) {
 
   useEffect(() => {
     axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : undefined;
+    socket.io.opts.extraHeaders = { authorization: token ? `Bearer ${token}` : '' };
 
     const fetchUser = async () => {
       const response = await UserService.me();
