@@ -6,15 +6,20 @@ import Constants from 'expo-constants';
 import UIGroup from '@components/UI/Group';
 import UIUser from '@components/UI/User';
 import UIButton from '@components/UI/Button';
+import { useState } from 'react';
 
 export default function Account() {
+  const [isLoading, setIsLoading] = useState(false);
   const { signOut, user } = useAuth();
   const router = useRouter();
   const version = Constants.expoConfig?.version;
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 200));
     signOut();
     router.push('/sign-in');
+    setIsLoading(false);
   };
 
   return (
@@ -27,7 +32,7 @@ export default function Account() {
           <Text style={styles.version}>{version}</Text>
         </UIGroup>
       ) : null}
-      <UIButton text="Sign Out" onPress={handleSignOut} />
+      <UIButton text="Sign Out" loading={isLoading} onPress={handleSignOut} />
     </View>
   );
 }

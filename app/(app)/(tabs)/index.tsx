@@ -35,6 +35,7 @@ export default function Home() {
       setIsLoading(false);
     } finally {
       setIsLoading(false);
+      opacity.setValue(0);
       Animated.timing(opacity, {
         toValue: 1,
         duration: 200,

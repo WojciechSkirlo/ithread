@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@context/auth';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -49,6 +49,7 @@ export default function SignUp() {
     confirm_password: '',
     errors: {}
   });
+  const [isLoading, setIsLoading] = useState(false);
   const { signUp } = useAuth();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -72,6 +73,7 @@ export default function SignUp() {
   const handleSubmit = async () => {
     try {
       if (!validateForm()) return;
+      setIsLoading(true);
 
       await signUp({
         name: state.name,
@@ -79,6 +81,7 @@ export default function SignUp() {
         password: state.password,
         confirm_password: state.confirm_password
       });
+      await new Promise((resolve) => setTimeout(resolve, 200));
       router.push('/sign-in');
     } catch (error: any) {
       const status = error?.response?.status;
@@ -87,6 +90,8 @@ export default function SignUp() {
         const errors = error?.response?.data?.errors ?? {};
         dispatch({ type: 'SET_ERRORS', payload: errors });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -132,7 +137,7 @@ export default function SignUp() {
           </View>
 
           <View style={styles.buttonLinkContainer}>
-            <UIButton text="Sign Up" onPress={handleSubmit} />
+            <UIButton text="Sign Up" loading={isLoading} onPress={handleSubmit} />
             <View style={styles.linkContainer}>
               <Text>Already have an account?</Text>
               <Link style={styles.link} href="/sign-in">

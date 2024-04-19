@@ -68,7 +68,6 @@ export default function Search() {
     } catch (error) {
       setIsLoading(false);
     } finally {
-      console.log('finally');
       setIsLoading(false);
       opacity.setValue(0);
       Animated.timing(opacity, {
