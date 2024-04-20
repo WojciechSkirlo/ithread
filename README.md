@@ -48,7 +48,7 @@ npm run prepare
 
 ### Links
 
-- Client (Soon)
+- [Client](https://expo.dev//accounts/woytek01/projects/ithread/builds/5ef57a15-6371-42f3-a01a-9d6504675d0b)
 - [API](https://ithread-woytek.koyeb.app/)
 
 
